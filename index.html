@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duco Waalid - Dalbado Hada</title>
+    <style>
+        :root { --primary: #008080; --accent: #25D366; --dark: #1f2937; }
+        body { font-family: -apple-system, sans-serif; margin: 0; background: #f3f4f6; color: var(--dark); padding-bottom: 160px; }
+        header { background: var(--primary); color: white; padding: 20px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { margin: 0; font-size: 1.4rem; }
+        .container { padding: 15px; }
+        .section-title { font-size: 1.1rem; margin: 15px 0 10px; color: var(--primary); font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; border: 1px solid #e5e7eb; position: relative; }
+        .price { font-weight: bold; color: var(--primary); margin: 6px 0; }
+        .btn { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 80%; }
+        .counter { display: flex; justify-content: center; align-items: center; gap: 15px; display: none; }
+        .count-btn { background: #e5e7eb; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; font-size: 1.1rem; }
+        
+        /* Location Input Area Styles */
+        .location-box { background: white; padding: 15px; border-radius: 12px; margin-top: 15px; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .location-box label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--dark); }
+        .location-box input { width: 93%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; }
+        
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 15px; border-top-right-radius: 15px; z-index: 1000; }
+        .wa-btn { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none;}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Duco Waalid Tea Shop Fast Foods & Car Wash</h1>
+    <p style="margin:5px 0 0; font-size:0.85rem;">Dalbo adigoo jooga Jigjiga Yar</p>
+</header>
+
+<div class="container">
+    <!-- Food & Drink Items -->
+    <div class="section-title">Shaah & Sharaab</div>
+    <div class="grid">
+        <div class="card" id="item-shaah">
+            <div style="font-size:2rem;">☕</div>
+            <div style="font-weight:600;">Shaah Cadde</div>
+            <div class="price">$0.25</div>
+            <button class="btn" onclick="changeQty('shaah', 1, 'Shaah Cadde', 0.25)">Kudar</button>
+            <div class="counter" id="counter-shaah">
+                <button class="count-btn" onclick="changeQty('shaah', -1, 'Shaah Cadde', 0.25)">-</button>
+                <span id="qty-shaah" style="font-weight:bold;">0</span>
+                <button class="count-btn" onclick="changeQty('shaah', 1, 'Shaah Cadde', 0.25)">+</button>
+            </div>
+        </div>
+        <div class="card" id="item-bigays">
+            <div style="font-size:2rem;">🍵</div>
+            <div style="font-weight:600;">Shaah Bigays</div>
+            <div class="price">$0.20</div>
+            <button class="btn" onclick="changeQty('bigays', 1, 'Shaah Bigays', 0.20)">Kudar</button>
+            <div class="counter" id="counter-bigays">
+                <button class="count-btn" onclick="changeQty('bigays', -1, 'Shaah Bigays', 0.20)">-</button>
+                <span id="qty-bigays" style="font-weight:bold;">0</span>
+                <button class="count-btn" onclick="changeQty('bigays', 1, 'Shaah Bigays', 0.20)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Cunto Fudud (Fast Food)</div>
+    <div class="grid">
+        <div class="card" id="item-burger">
+            <div style="font-size:2rem;">🍔</div>
+            <div style="font-weight:600;">Burger</div>
+            <div class="price">$2.50</div>
+            <button class="btn" onclick="changeQty('burger', 1, 'Burger', 2.50)">Kudar</button>
+            <div class="counter" id="counter-burger">
+                <button class="count-btn" onclick="changeQty('burger', -1, 'Burger', 2.50)">-</button>
+                <span id="qty-burger" style="font-weight:bold;">0</span>
+                <button class="count-btn" onclick="changeQty('burger', 1, 'Burger', 2.50)">+</button>
+            </div>
+        </div>
+        <div class="card" id="item-chips">
+            <div style="font-size:2rem;">🍟</div>
+            <div style="font-weight:600;">Chips</div>
+            <div class="price">$1.20</div>
+            <button class="btn" onclick="changeQty('chips', 1, 'Chips', 1.20)">Kudar</button>
+            <div class="counter" id="counter-chips">
+                <button class="count-btn" onclick="changeQty('chips', -1, 'Chips', 1.20)">-</button>
+                <span id="qty-chips" style="font-weight:bold;">0</span>
+                <button class="count-btn" onclick="changeQty('chips', 1, 'Chips', 1.20)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Customer Location Inputs -->
+    <div class="location-box">
+        <label for="cust-location">📍 Nooca Gaariga / Lambarka Sifada (Tusaale: Car Wash Bay 2, ama Taargo):</label>
+        <input type="text" id="cust-location" placeholder="Halken kuugu keennaa adeegga?">
+    </div>
+</div>
+
+<div class="nav-bar">
+    <div>
+        <div style="font-size:0.8rem; color:#6b7280;">Wadarta Guud:</div>
+        <div id="total-price" style="font-size:1.3rem; font-weight:bold; color:var(--primary);">$0.00</div>
+    </div>
+    <a id="whatsapp-link" href="#" class="wa-btn" onclick="sendOrder(event)">
+        💬 Dalbo Hada
+    </a>
+</div>
+
+<script>
+    // Lambarkaaga dukaanka oo sax ah oo wata wadanka code-kiisa
+    const SHOP_PHONE = "252639080072"; 
+    let cart = {};
+
+    function changeQty(id, change, name, price) {
+        if (!cart[id]) cart[id] = { name: name, qty: 0, price: price };
+        cart[id].qty += change;
+
+        const card = document.getElementById(`item-${id}`);
+        const btn = card.querySelector('.btn');
+        const counter = card.querySelector('.counter');
+        const qtyLabel = document.getElementById(`qty-${id}`);
+
+        if (cart[id].qty <= 0) {
+            delete cart[id];
+            btn.style.display = "inline-block";
+            counter.style.display = "none";
+        } else {
+            btn.style.display = "none";
+            counter.style.display = "flex";
+            qtyLabel.innerText = cart[id].qty;
+        }
+        updateTotal();
+    }
+
+    function updateTotal() {
+        let total = 0;
+        for (let id in cart) {
+            total += cart[id].qty * cart[id].price;
+        }
+        document.getElementById('total-price').innerText = `$${total.toFixed(2)}`;
+    }
+
+    function sendOrder(e) {
+        let text = "*DALAB CUSUB: Duco Waalid*\n\n";
+        let hasItems = false;
+        
+        for (let id in cart) {
+            text += `🔹 ${cart[id].qty}x ${cart[id].name} ($${(cart[id].qty * cart[id].price).toFixed(2)})\n`;
+            hasItems = true;
+        }
+
+        if (!hasItems) {
+            alert("Fadlan marka hore cunto ama shaah kudar saxanka!");
+            e.preventDefault();
+            return;
+        }
+
+        const userLocation = document.getElementById('cust-location').value.trim();
+        if (!userLocation) {
+            alert("Fadlan qor halka aad fadhido ama Lambarka Sifada Gaariga!");
+            e.preventDefault();
+            return;
+        }
+
+        text += `\n💰 *Wadarta Guud:* ${document.getElementById('total-price').innerText}`;
+        text += `\n📍 *Goobta Gaariga:* ${userLocation}`;
+        text += `\n🏢 *Xubinta:* Jigjiga Yar Hub`;
+        
+        const encodedText = encodeURIComponent(text);
+        document.getElementById('whatsapp-link').href = `https://wa.me{SHOP_PHONE}?text=${encodedText}`;
+    }
+</script>
+</body>
+</html>
