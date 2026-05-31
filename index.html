@@ -3,171 +3,1092 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Duco Waalid - Dalbado Hada</title>
+    <title>Duco Waalid - Fast Food, Tea Shop & Car Wash</title>
+    
+    <!-- Leaflet.js CDN for Interactive Maps -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    
     <style>
-        :root { --primary: #008080; --accent: #25D366; --dark: #1f2937; }
-        body { font-family: -apple-system, sans-serif; margin: 0; background: #f3f4f6; color: var(--dark); padding-bottom: 160px; }
-        header { background: var(--primary); color: white; padding: 20px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { margin: 0; font-size: 1.4rem; }
-        .container { padding: 15px; }
-        .section-title { font-size: 1.1rem; margin: 15px 0 10px; color: var(--primary); font-weight: bold; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; border: 1px solid #e5e7eb; position: relative; }
-        .price { font-weight: bold; color: var(--primary); margin: 6px 0; }
-        .btn { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 80%; }
-        .counter { display: flex; justify-content: center; align-items: center; gap: 15px; display: none; }
-        .count-btn { background: #e5e7eb; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; font-size: 1.1rem; }
-        
-        /* Location Input Area Styles */
-        .location-box { background: white; padding: 15px; border-radius: 12px; margin-top: 15px; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .location-box label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--dark); }
-        .location-box input { width: 93%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; }
-        
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 15px; border-top-right-radius: 15px; z-index: 1000; }
-        .wa-btn { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none;}
+        :root {
+            --primary: #005F60;
+            --accent: #00E676;
+            --surface: #FFFFFF;
+            --bg: #F4F6F6;
+            --dark: #1f2937;
+            --shadow-sm: 0 2px 8px rgba(0, 95, 96, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 95, 96, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 95, 96, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* ==================== HEADER ==================== */
+        header {
+            background: var(--surface);
+            padding: 20px 20px;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header-content h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-content p {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .cart-badge {
+            background: var(--accent);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ==================== HERO BANNER ==================== */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
+            color: var(--surface);
+            padding: 24px 20px;
+            margin: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .hero-banner h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-banner p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin: 6px 0;
+        }
+
+        .zone-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* ==================== MAP SECTION ==================== */
+        .map-section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .map-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .map-container {
+            width: 90vw;
+            height: 380px;
+            margin: 0 auto;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+            background: var(--surface);
+        }
+
+        #leaflet-map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tracker-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--surface);
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            z-index: 50;
+            display: none;
+        }
+
+        .tracker-status.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-timeline {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: var(--surface);
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            font-size: 0.8rem;
+            color: var(--dark);
+            z-index: 50;
+            display: none;
+            max-width: 280px;
+        }
+
+        .status-timeline.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+            padding: 6px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .status-step:last-child {
+            border-bottom: none;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1d5db;
+        }
+
+        .status-indicator.active {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 8px var(--accent);
+            }
+            50% {
+                box-shadow: 0 0 16px var(--accent);
+            }
+        }
+
+        .status-text {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* ==================== MENU SECTIONS ==================== */
+        .menu-section {
+            padding: 30px 20px;
+        }
+
+        .menu-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .item-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .item-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .item-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E72 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(255, 107, 107, 0.8);
+            }
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            background: #008A8B;
+            transform: scale(1.05);
+        }
+
+        .qty-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            background: #e5e7eb;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--primary);
+        }
+
+        .qty-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .qty-display {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* ==================== CHECKOUT MODAL ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: var(--surface);
+            width: 100%;
+            padding: 24px 20px;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 1.3rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: #e5e7eb;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .cart-item-qty {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .cart-item-remove {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .cart-item-remove:hover {
+            background: #fecaca;
+        }
+
+        .location-input-box {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border: 2px solid #e5e7eb;
+        }
+
+        .location-input-box label {
+            display: block;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .location-input-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .location-input-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(0, 230, 118, 0.2);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .modal-total {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .modal-total-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .modal-total-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .order-btn {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 16px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .order-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .order-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 1.2rem;
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .map-container {
+                width: 100%;
+                height: 300px;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .order-btn {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        .hidden-section {
+            display: none;
+        }
+
+        .active-section {
+            display: block !important;
+        }
     </style>
 </head>
 <body>
 
+<!-- ==================== HEADER ==================== -->
 <header>
-    <h1>Duco Waalid Tea Shop Fast Foods & Car Wash</h1>
-    <p style="margin:5px 0 0; font-size:0.85rem;">Dalbo adigoo jooga Jigjiga Yar</p>
+    <div class="header-content">
+        <h1>🍽️ Duco Waalid</h1>
+        <p>Fast Food • Tea Shop • Car Wash</p>
+    </div>
+    <div class="cart-badge" onclick="openCheckout()" style="cursor: pointer;">
+        <span id="cart-count">0</span>
+    </div>
 </header>
 
-<div class="container">
-    <!-- Food & Drink Items -->
-    <div class="section-title">Shaah & Sharaab</div>
-    <div class="grid">
-        <div class="card" id="item-shaah">
-            <div style="font-size:2rem;">☕</div>
-            <div style="font-weight:600;">Shaah Cadde</div>
-            <div class="price">$0.25</div>
-            <button class="btn" onclick="changeQty('shaah', 1, 'Shaah Cadde', 0.25)">Kudar</button>
-            <div class="counter" id="counter-shaah">
-                <button class="count-btn" onclick="changeQty('shaah', -1, 'Shaah Cadde', 0.25)">-</button>
-                <span id="qty-shaah" style="font-weight:bold;">0</span>
-                <button class="count-btn" onclick="changeQty('shaah', 1, 'Shaah Cadde', 0.25)">+</button>
-            </div>
-        </div>
-        <div class="card" id="item-bigays">
-            <div style="font-size:2rem;">🍵</div>
-            <div style="font-weight:600;">Shaah Bigays</div>
-            <div class="price">$0.20</div>
-            <button class="btn" onclick="changeQty('bigays', 1, 'Shaah Bigays', 0.20)">Kudar</button>
-            <div class="counter" id="counter-bigays">
-                <button class="count-btn" onclick="changeQty('bigays', -1, 'Shaah Bigays', 0.20)">-</button>
-                <span id="qty-bigays" style="font-weight:bold;">0</span>
-                <button class="count-btn" onclick="changeQty('bigays', 1, 'Shaah Bigays', 0.20)">+</button>
-            </div>
-        </div>
-    </div>
+<!-- ==================== MAIN CONTENT ==================== -->
+<main id="main-content">
 
-    <div class="section-title">Cunto Fudud (Fast Food)</div>
-    <div class="grid">
-        <div class="card" id="item-burger">
-            <div style="font-size:2rem;">🍔</div>
-            <div style="font-weight:600;">Burger</div>
-            <div class="price">$2.50</div>
-            <button class="btn" onclick="changeQty('burger', 1, 'Burger', 2.50)">Kudar</button>
-            <div class="counter" id="counter-burger">
-                <button class="count-btn" onclick="changeQty('burger', -1, 'Burger', 2.50)">-</button>
-                <span id="qty-burger" style="font-weight:bold;">0</span>
-                <button class="count-btn" onclick="changeQty('burger', 1, 'Burger', 2.50)">+</button>
-            </div>
-        </div>
-        <div class="card" id="item-chips">
-            <div style="font-size:2rem;">🍟</div>
-            <div style="font-weight:600;">Chips</div>
-            <div class="price">$1.20</div>
-            <button class="btn" onclick="changeQty('chips', 1, 'Chips', 1.20)">Kudar</button>
-            <div class="counter" id="counter-chips">
-                <button class="count-btn" onclick="changeQty('chips', -1, 'Chips', 1.20)">-</button>
-                <span id="qty-chips" style="font-weight:bold;">0</span>
-                <button class="count-btn" onclick="changeQty('chips', 1, 'Chips', 1.20)">+</button>
-            </div>
-        </div>
-    </div>
+    <!-- ==================== HERO BANNER ==================== -->
+    <section class="hero-banner">
+        <h2>🎯 Delivery Strictly Inside Jigjiga Yar</h2>
+        <p>📍 Service Zone: <strong>Waafi Maal to Goolada Sare & Goolada Hoose</strong></p>
+        <p>Adeegga Waxaan Bixinaa Jigjiga Yar gidka kaliya</p>
+        <div class="zone-badge">✓ Live Tracking Enabled</div>
+    </section>
 
-    <!-- Live Customer Location Inputs -->
-    <div class="location-box">
-        <label for="cust-location">📍 Nooca Gaariga / Lambarka Sifada (Tusaale: Car Wash Bay 2, ama Taargo):</label>
-        <input type="text" id="cust-location" placeholder="Halken kuugu keennaa adeegga?">
+    <!-- ==================== MAP SECTION ==================== -->
+    <section class="map-section" id="map-section">
+        <h3>📍 Live Delivery Map</h3>
+        <div class="map-container">
+            <div id="leaflet-map"></div>
+            <div class="tracker-status" id="tracker-status">
+                🟢 Tracking Active
+            </div>
+            <div class="status-timeline" id="status-timeline">
+                <div class="status-step">
+                    <div class="status-indicator active" id="status-preparing"></div>
+                    <span class="status-text">Diyaarinaya</span>
+                </div>
+                <div class="status-step">
+                    <div class="status-indicator" id="status-leaving"></div>
+                    <span class="status-text">Loo Soo Saaray</span>
+                </div>
+                <div class="status-step">
+                    <div class="status-indicator" id="status-delivery"></div>
+                    <span class="status-text">Dhaweeye Jidka</span>
+                </div>
+                <div class="status-step">
+                    <div class="status-indicator" id="status-arrived"></div>
+                    <span class="status-text">Wuu Ku Soo Gaadhay</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== BEVERAGES MENU ==================== -->
+    <section class="menu-section">
+        <h2 class="menu-title">☕ Shaah & Sharaab (Beverages)</h2>
+        <div class="items-grid">
+            <div class="item-card">
+                <div class="item-emoji">☕</div>
+                <div class="item-name">Shaah Baraad</div>
+                <div class="item-price">2,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('shaah-baraad', 'Shaah Baraad', 2000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-shaah-baraad" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('shaah-baraad', -1)">−</button>
+                    <span class="qty-display" id="qty-display-shaah-baraad">1</span>
+                    <button class="qty-btn" onclick="changeQty('shaah-baraad', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-emoji">🍵</div>
+                <div class="item-name">Shaah Soolane</div>
+                <div class="item-price">2,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('shaah-soolane', 'Shaah Soolane', 2000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-shaah-soolane" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('shaah-soolane', -1)">−</button>
+                    <span class="qty-display" id="qty-display-shaah-soolane">1</span>
+                    <button class="qty-btn" onclick="changeQty('shaah-soolane', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-emoji">🫖</div>
+                <div class="item-name">Shaah Macaan Yar</div>
+                <div class="item-price">2,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('shaah-macaan', 'Shaah Macaan Yar', 2000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-shaah-macaan" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('shaah-macaan', -1)">−</button>
+                    <span class="qty-display" id="qty-display-shaah-macaan">1</span>
+                    <button class="qty-btn" onclick="changeQty('shaah-macaan', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-emoji">🍶</div>
+                <div class="item-name">Shaah Bigays</div>
+                <div class="item-price">2,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('shaah-bigays', 'Shaah Bigays', 2000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-shaah-bigays" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('shaah-bigays', -1)">−</button>
+                    <span class="qty-display" id="qty-display-shaah-bigays">1</span>
+                    <button class="qty-btn" onclick="changeQty('shaah-bigays', 1)">+</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FAST FOOD MENU ==================== -->
+    <section class="menu-section">
+        <h2 class="menu-title">🍔 Cunto Fudud (Fast Food)</h2>
+        <div class="items-grid">
+            <div class="item-card">
+                <div class="promo-badge">🔥 LAUNCH PROMO</div>
+                <div class="item-emoji">🥖</div>
+                <div class="item-name">Baguette Ukun & Chips</div>
+                <div class="item-price">11,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('baguette-chips', 'Baguette Ukun & Chips', 11000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-baguette-chips" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('baguette-chips', -1)">−</button>
+                    <span class="qty-display" id="qty-display-baguette-chips">1</span>
+                    <button class="qty-btn" onclick="changeQty('baguette-chips', 1)">+</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CAR WASH MENU ==================== -->
+    <section class="menu-section">
+        <h2 class="menu-title">🚗 Car Wash Services</h2>
+        <div class="items-grid">
+            <div class="item-card">
+                <div class="item-emoji">💦</div>
+                <div class="item-name">Quick Wash</div>
+                <div class="item-price">15,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('quick-wash', 'Quick Wash', 15000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-quick-wash" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('quick-wash', -1)">−</button>
+                    <span class="qty-display" id="qty-display-quick-wash">1</span>
+                    <button class="qty-btn" onclick="changeQty('quick-wash', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-emoji">✨</div>
+                <div class="item-name">Premium Wash</div>
+                <div class="item-price">25,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('premium-wash', 'Premium Wash', 25000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-premium-wash" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('premium-wash', -1)">−</button>
+                    <span class="qty-display" id="qty-display-premium-wash">1</span>
+                    <button class="qty-btn" onclick="changeQty('premium-wash', 1)">+</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ==================== CHECKOUT MODAL ==================== -->
+<div class="modal" id="checkout-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            Your Order
+            <button class="close-btn" onclick="closeCheckout()">✕</button>
+        </div>
+        
+        <div id="cart-items-display"></div>
+
+        <div class="location-input-box">
+            <label for="delivery-location">📍 Halka Aad Fadhido (Your Location/Address):</label>
+            <input 
+                type="text" 
+                id="delivery-location" 
+                placeholder="e.g., Car Wash Bay 2, Goolada Hoose, Near Hospital..."
+            >
+        </div>
+
+        <div class="modal-footer">
+            <div class="modal-total">
+                <span class="modal-total-label">Wadarta Guud</span>
+                <span class="modal-total-price" id="modal-total">0 SLN</span>
+            </div>
+            <button class="order-btn" onclick="submitOrder()">💬 Dalbo Hada</button>
+        </div>
     </div>
 </div>
 
-<div class="nav-bar">
-    <div>
-        <div style="font-size:0.8rem; color:#6b7280;">Wadarta Guud:</div>
-        <div id="total-price" style="font-size:1.3rem; font-weight:bold; color:var(--primary);">$0.00</div>
-    </div>
-    <a id="whatsapp-link" href="#" class="wa-btn" onclick="sendOrder(event)">
-        💬 Dalbo Hada
-    </a>
-</div>
+<!-- ==================== FOOTER ==================== -->
+<footer>
+    <p>© 2025 Duco Waalid Fast Food, Tea Shop & Car Wash | Jigjiga Yar 🇸🇴</p>
+    <p>📞 +252 639 080 072 | ⏰ Open Daily 7AM - 10PM</p>
+</footer>
 
 <script>
-    // Lambarkaaga dukaanka oo sax ah oo wata wadanka code-kiisa
-    const SHOP_PHONE = "252639080072"; 
+    // ==================== STATE MANAGEMENT ====================
     let cart = {};
+    const SHOP_PHONE = "252639080072";
+    const HUB_COORDS = [9.5559, 42.5964]; // Jigjiga Yar Hub coordinates
+    let map = null;
+    let deliveryMarker = null;
+    let deliveryIcon = null;
+    let trackerActive = false;
+    let trackerInterval = null;
+    let deliveryStep = 0;
 
-    function changeQty(id, change, name, price) {
-        if (!cart[id]) cart[id] = { name: name, qty: 0, price: price };
-        cart[id].qty += change;
+    // ==================== MAP INITIALIZATION ====================
+    function initializeMap() {
+        // Initialize Leaflet Map
+        map = L.map('leaflet-map').setView(HUB_COORDS, 15);
 
-        const card = document.getElementById(`item-${id}`);
-        const btn = card.querySelector('.btn');
-        const counter = card.querySelector('.counter');
-        const qtyLabel = document.getElementById(`qty-${id}`);
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
 
-        if (cart[id].qty <= 0) {
-            delete cart[id];
-            btn.style.display = "inline-block";
-            counter.style.display = "none";
+        // Create custom icon for Duco Waalid Hub
+        const hubIcon = L.divIcon({
+            html: `
+                <div style="
+                    background: linear-gradient(135deg, #005F60 0%, #008A8B 100%);
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 12px;
+                    font-weight: 700;
+                    font-size: 12px;
+                    box-shadow: 0 4px 12px rgba(0, 95, 96, 0.3);
+                    white-space: nowrap;
+                    border: 2px solid white;
+                ">
+                    🏢 Duco Waalid Hub
+                </div>
+            `,
+            className: 'hub-marker',
+            iconSize: [150, 30],
+            iconAnchor: [75, 30]
+        });
+
+        // Add hub marker
+        L.marker(HUB_COORDS, { icon: hubIcon })
+            .bindPopup(
+                `<div style="color: #005F60; font-weight: 700;">
+                    🏢 Duco Waalid Hub<br>
+                    Jigjiga Yar<br>
+                    <small>📞 +252 639 080 072</small>
+                </div>`
+            )
+            .addTo(map);
+    }
+
+    // ==================== CART MANAGEMENT ====================
+    function addToCart(id, name, price) {
+        if (!cart[id]) {
+            cart[id] = { name, price, qty: 0 };
+        }
+        cart[id].qty = 1;
+        updateCartUI();
+        updateQuantitySelector(id);
+    }
+
+    function changeQty(id, change) {
+        if (cart[id]) {
+            cart[id].qty += change;
+            if (cart[id].qty <= 0) {
+                delete cart[id];
+            }
+        }
+        updateCartUI();
+        updateQuantitySelector(id);
+    }
+
+    function updateQuantitySelector(id) {
+        const btn = document.querySelector(`button[onclick*="addToCart('${id}'"]`);
+        const qtySelector = document.getElementById(`qty-${id}`);
+        
+        if (cart[id]) {
+            btn.style.display = 'none';
+            qtySelector.style.display = 'flex';
+            document.getElementById(`qty-display-${id}`).textContent = cart[id].qty;
         } else {
-            btn.style.display = "none";
-            counter.style.display = "flex";
-            qtyLabel.innerText = cart[id].qty;
+            btn.style.display = 'block';
+            qtySelector.style.display = 'none';
         }
-        updateTotal();
     }
 
-    function updateTotal() {
+    function updateCartUI() {
+        const count = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+        document.getElementById('cart-count').textContent = count;
+    }
+
+    // ==================== CHECKOUT MODAL ====================
+    function openCheckout() {
+        if (Object.keys(cart).length === 0) {
+            alert('Fadlan marka hore cunto kudar!');
+            return;
+        }
+
+        const cartItemsDisplay = document.getElementById('cart-items-display');
+        let itemsHTML = '';
         let total = 0;
+
         for (let id in cart) {
-            total += cart[id].qty * cart[id].price;
+            const item = cart[id];
+            const itemTotal = item.qty * item.price;
+            total += itemTotal;
+            itemsHTML += `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-qty">${item.qty}x</div>
+                    </div>
+                    <div class="cart-item-price">${itemTotal.toLocaleString('en-US')} SLN</div>
+                    <button class="cart-item-remove" onclick="removeFromCart('${id}')">Tirtir</button>
+                </div>
+            `;
         }
-        document.getElementById('total-price').innerText = `$${total.toFixed(2)}`;
+
+        cartItemsDisplay.innerHTML = itemsHTML;
+        document.getElementById('modal-total').textContent = `${total.toLocaleString('en-US')} SLN`;
+        document.getElementById('checkout-modal').classList.add('show');
     }
 
-    function sendOrder(e) {
-        let text = "*DALAB CUSUB: Duco Waalid*\n\n";
-        let hasItems = false;
-        
-        for (let id in cart) {
-            text += `🔹 ${cart[id].qty}x ${cart[id].name} ($${(cart[id].qty * cart[id].price).toFixed(2)})\n`;
-            hasItems = true;
-        }
+    function closeCheckout() {
+        document.getElementById('checkout-modal').classList.remove('show');
+    }
 
-        if (!hasItems) {
-            alert("Fadlan marka hore cunto ama shaah kudar saxanka!");
-            e.preventDefault();
+    function removeFromCart(id) {
+        delete cart[id];
+        updateCartUI();
+        updateQuantitySelector(id);
+        openCheckout();
+    }
+
+    // ==================== ORDER SUBMISSION ====================
+    function submitOrder() {
+        const location = document.getElementById('delivery-location').value.trim();
+        if (!location) {
+            alert('Fadlan qor halka aad fadhido!');
             return;
         }
 
-        const userLocation = document.getElementById('cust-location').value.trim();
-        if (!userLocation) {
-            alert("Fadlan qor halka aad fadhido ama Lambarka Sifada Gaariga!");
-            e.preventDefault();
-            return;
-        }
-
-        text += `\n💰 *Wadarta Guud:* ${document.getElementById('total-price').innerText}`;
-        text += `\n📍 *Goobta Gaariga:* ${userLocation}`;
-        text += `\n🏢 *Xubinta:* Jigjiga Yar Hub`;
+        // Close modal and start tracking
+        closeCheckout();
         
-        const encodedText = encodeURIComponent(text);
-        document.getElementById('whatsapp-link').href = `https://wa.me{SHOP_PHONE}?text=${encodedText}`;
+        // Scroll to map
+        setTimeout(() => {
+            document.getElementById('map-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            startDeliveryTracking(location);
+        }, 300);
     }
+
+    // ==================== DELIVERY TRACKING ENGINE ====================
+    function startDeliveryTracking(location) {
+        trackerActive = true;
+        deliveryStep = 0;
+
+        // Show tracker status
+        document.getElementById('tracker-status').classList.add('active');
+        document.getElementById('status-timeline').classList.add('active');
+
+        // Add customer delivery marker
+        const customerCoords = [
+            HUB_COORDS[0] + (Math.random() - 0.5) * 0.05,
+            HUB_COORDS[1] + (Math.random() - 0.5) * 0.05
+        ];
+
+        // Custom delivery icon
+        const deliveryIconHtml = L.divIcon({
+            html: `<div style="font-size: 2rem; animation: bounce 0.6s infinite;">🏍️</div>`,
+            className: 'delivery-marker',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+
+        deliveryMarker = L.marker(HUB_COORDS, { icon: deliveryIconHtml }).addTo(map);
+
+        // Start animation
+        let step = 0;
+        const totalSteps = 120; // 2 minutes at 60 FPS equivalent
+
+        trackerInterval = setInterval(() => {
+            step++;
+            const progress = step / totalSteps;
+
+            // Calculate current position
+            const currentLat = HUB_COORDS[0] + (customerCoords[0] - HUB_COORDS[0]) * progress;
+            const currentLng = HUB_COORDS[1] + (customerCoords[1] - HUB_COORDS[1]) * progress;
+
+            deliveryMarker.setLatLng([currentLat, currentLng]);
+
+            // Update tracking status
+            updateTrackingStatus(progress);
+
+            // Animation complete
+            if (step >= totalSteps) {
+                clearInterval(trackerInterval);
+                deliveryMarker.setLatLng(customerCoords);
+                finalizeDelivery(location);
+            }
+        }, 1000); // Update every second
+
+        // Add polyline from hub to customer
+        L.polyline([HUB_COORDS, customerCoords], {
+            color: '#00E676',
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '5, 5'
+        }).addTo(map);
+
+        // Fit map bounds
+        const group = new L.featureGroup([
+            L.marker(HUB_COORDS),
+            L.marker(customerCoords)
+        ]);
+        map.fitBounds(group.getBounds().pad(0.1));
+    }
+
+    function updateTrackingStatus(progress) {
+        // Preparing (0-25%)
+        if (progress < 0.25) {
+            document.getElementById('status-preparing').classList.add('active');
+            document.getElementById('status-leaving').classList.remove('active');
+            document.getElementById('status-delivery').classList.remove('active');
+            document.getElementById('status-arrived').classList.remove('active');
+        }
+        // Leaving (25-50%)
+        else if (progress < 0.5) {
+            document.getElementById('status-preparing').classList.remove('active');
+            document.getElementById('status-leaving').classList.add('active');
+            document.getElementById('status-delivery').classList.remove('active');
+            document.getElementById('status-arrived').classList.remove('active');
+        }
+        // In Delivery (50-75%)
+        else if (progress < 0.75) {
+            document.getElementById('status-preparing').classList.remove('active');
+            document.getElementById('status-leaving').classList.remove('active');
+            document.getElementById('status-delivery').classList.add('active');
+            document.getElementById('status-arrived').classList.remove('active');
+        }
+        // Arrived (75%+)
+        else {
+            document.getElementById('status-preparing').classList.remove('active');
+            document.getElementById('status-leaving').classList.remove('active');
+            document.getElementById('status-delivery').classList.remove('active');
+            document.getElementById('status-arrived').classList.add('active');
+        }
+    }
+
+    function finalizeDelivery(location) {
+        // Show completion message
+        setTimeout(() => {
+            alert(`✅ Adeegga Waa Ku Soo Gaadhay!\n📍 Location: ${location}\n\nShukran! 🙏`);
+            resetTracker();
+        }, 2000);
+    }
+
+    function resetTracker() {
+        trackerActive = false;
+        document.getElementById('tracker-status').classList.remove('active');
+        document.getElementById('status-timeline').classList.remove('active');
+        cart = {};
+        updateCartUI();
+    }
+
+    // ==================== PAGE INITIALIZATION ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeMap();
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('checkout-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeCheckout();
+        }
+    });
 </script>
+
 </body>
 </html>
