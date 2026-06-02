@@ -19,6 +19,9 @@
             --shadow-sm: 0 2px 8px rgba(0, 95, 96, 0.08);
             --shadow-md: 0 4px 16px rgba(0, 95, 96, 0.12);
             --shadow-lg: 0 12px 32px rgba(0, 95, 96, 0.15);
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
         }
 
         * {
@@ -65,6 +68,32 @@
             margin-top: 2px;
         }
 
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge.open {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-badge.closed {
+            background: #FEE2E2;
+            color: #7F1D1D;
+        }
+
         .cart-badge {
             background: var(--accent);
             color: var(--primary);
@@ -76,6 +105,64 @@
             justify-content: center;
             font-weight: 700;
             font-size: 1.1rem;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+        }
+
+        /* ==================== STATUS BANNER ==================== */
+        .status-banner {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 16px 20px;
+            margin: 16px 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .status-banner.closed {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        }
+
+        /* ==================== JOKE SECTION ==================== */
+        .joke-section {
+            background: linear-gradient(135deg, #FCD34D 0%, #FBBF24 100%);
+            margin: 16px 20px;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .joke-title {
+            font-size: 0.9rem;
+            color: #92400E;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .joke-text {
+            font-size: 1.1rem;
+            color: #78350F;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .joke-btn {
+            background: #FFFFFF;
+            color: #D97706;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .joke-btn:hover {
+            transform: scale(1.05);
             box-shadow: var(--shadow-md);
         }
 
@@ -113,135 +200,241 @@
             margin-top: 10px;
         }
 
-        /* ==================== MAP SECTION ==================== */
-        .map-section {
-            padding: 20px;
-            text-align: center;
+        /* ==================== TESTIMONIALS SECTION ==================== */
+        .testimonials-section {
+            padding: 30px 20px;
+            background: #F9FAFB;
         }
 
-        .map-section h3 {
+        .testimonials-title {
+            font-size: 1.3rem;
             color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
             font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .map-container {
-            width: 90vw;
-            height: 380px;
-            margin: 0 auto;
-            border-radius: 24px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            position: relative;
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card {
             background: var(--surface);
-        }
-
-        #leaflet-map {
-            width: 100%;
-            height: 100%;
-        }
-
-        .tracker-status {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--surface);
-            padding: 12px 16px;
             border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            z-index: 50;
-            display: none;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--accent);
         }
 
-        .tracker-status.active {
-            display: block;
-            animation: slideIn 0.3s ease-out;
+        .testimonial-stars {
+            color: #FCD34D;
+            font-size: 1rem;
+            margin-bottom: 8px;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .status-timeline {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            background: var(--surface);
-            padding: 12px 16px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            font-size: 0.8rem;
+        .testimonial-text {
+            font-size: 0.95rem;
             color: var(--dark);
-            z-index: 50;
-            display: none;
-            max-width: 280px;
+            margin-bottom: 12px;
+            font-style: italic;
         }
 
-        .status-timeline.active {
-            display: block;
-            animation: slideUp 0.3s ease-out;
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ==================== ABOUT US SECTION ==================== */
+        .about-section {
+            padding: 30px 20px;
+            background: var(--surface);
+            margin: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
         }
 
-        .status-step {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 6px 0;
-            padding: 6px 0;
-            border-bottom: 1px solid #e5e7eb;
+        .about-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .status-step:last-child {
-            border-bottom: none;
+        .about-text {
+            color: var(--dark);
+            line-height: 1.8;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
         }
 
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #d1d5db;
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
 
-        .status-indicator.active {
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 8px var(--accent);
-            }
-            50% {
-                box-shadow: 0 0 16px var(--accent);
-            }
-        }
-
-        .status-text {
+        .about-feature {
+            background: #F0FDF4;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
             font-weight: 600;
             color: var(--primary);
+            border: 1px solid var(--accent);
+        }
+
+        /* ==================== POPULAR ITEMS SECTION ==================== */
+        .popular-section {
+            padding: 30px 20px;
+        }
+
+        .popular-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .popular-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .popular-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 10;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .popular-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .popular-info {
+            padding: 16px;
+        }
+
+        .popular-name {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .popular-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ==================== CONTACT SECTION ==================== */
+        .contact-section {
+            padding: 30px 20px;
+            background: #F3F4F6;
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .contact-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border-top: 4px solid var(--accent);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-label {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .contact-value {
+            color: var(--dark);
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .contact-btn {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .contact-btn:hover {
+            background: var(--primary);
+            color: white;
         }
 
         /* ==================== MENU SECTIONS ==================== */
@@ -284,6 +477,14 @@
             border-color: var(--accent);
         }
 
+        .item-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
         .item-emoji {
             font-size: 2.5rem;
             margin-bottom: 8px;
@@ -314,6 +515,7 @@
             font-size: 0.7rem;
             font-weight: 700;
             animation: glow 2s ease-in-out infinite;
+            z-index: 10;
         }
 
         @keyframes glow {
@@ -413,6 +615,17 @@
             overflow-y: auto;
         }
 
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .modal-header {
             font-size: 1.3rem;
             color: var(--primary);
@@ -479,6 +692,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             transition: all 0.2s;
+            margin-left: 8px;
         }
 
         .cart-item-remove:hover {
@@ -523,6 +737,7 @@
             margin-top: 20px;
             padding-top: 16px;
             border-top: 2px solid #e5e7eb;
+            gap: 16px;
         }
 
         .modal-total {
@@ -545,7 +760,7 @@
 
         .order-btn {
             flex: 1;
-            background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
+            background: linear-gradient(135deg, #25D366 0%, #1FAE56 100%);
             color: white;
             border: none;
             padding: 14px 24px;
@@ -553,9 +768,12 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            margin-left: 16px;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .order-btn:hover:not(:disabled) {
@@ -573,9 +791,34 @@
             background: var(--primary);
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
             margin-top: 40px;
             font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
         }
 
         /* ==================== RESPONSIVE ==================== */
@@ -588,9 +831,16 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .map-container {
-                width: 100%;
-                height: 300px;
+            .popular-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
             }
 
             .modal-footer {
@@ -599,17 +849,13 @@
             }
 
             .order-btn {
-                margin-left: 0;
                 width: 100%;
             }
-        }
 
-        .hidden-section {
-            display: none;
-        }
-
-        .active-section {
-            display: block !important;
+            .header-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
         }
     </style>
 </head>
@@ -621,13 +867,31 @@
         <h1>🍽️ Duco Waalid</h1>
         <p>Fast Food • Tea Shop • Car Wash</p>
     </div>
-    <div class="cart-badge" onclick="openCheckout()" style="cursor: pointer;">
-        <span id="cart-count">0</span>
+    <div class="header-actions">
+        <div class="status-badge open" id="status-badge">
+            <span id="status-dot">🟢</span>
+            <span id="status-text">OPEN NOW</span>
+        </div>
+        <div class="cart-badge" onclick="openCheckout()" style="cursor: pointer;">
+            <span id="cart-count">0</span>
+        </div>
     </div>
 </header>
 
 <!-- ==================== MAIN CONTENT ==================== -->
 <main id="main-content">
+
+    <!-- ==================== STATUS BANNER ==================== -->
+    <section class="status-banner" id="status-banner">
+        ✅ We're OPEN! Order now and get fast delivery! 🚀
+    </section>
+
+    <!-- ==================== JOKE SECTION ==================== -->
+    <section class="joke-section">
+        <div class="joke-title">😂 Daily Laugh Break 😂</div>
+        <div class="joke-text" id="joke-text">Why did the tea go to school? To get a little BREW-der! ☕</div>
+        <button class="joke-btn" onclick="getRandomJoke()">Get New Joke 😆</button>
+    </section>
 
     <!-- ==================== HERO BANNER ==================== -->
     <section class="hero-banner">
@@ -637,31 +901,100 @@
         <div class="zone-badge">✓ Live Tracking Enabled</div>
     </section>
 
-    <!-- ==================== MAP SECTION ==================== -->
-    <section class="map-section" id="map-section">
-        <h3>📍 Live Delivery Map</h3>
-        <div class="map-container">
-            <div id="leaflet-map"></div>
-            <div class="tracker-status" id="tracker-status">
-                🟢 Tracking Active
+    <!-- ==================== TESTIMONIALS SECTION ==================== -->
+    <section class="testimonials-section">
+        <h2 class="testimonials-title">⭐ What Our Customers Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-text">"Best tea in Jigjiga! Amazing service and super fast delivery!"</div>
+                <div class="testimonial-author">— Ahmed Hassan</div>
             </div>
-            <div class="status-timeline" id="status-timeline">
-                <div class="status-step">
-                    <div class="status-indicator active" id="status-preparing"></div>
-                    <span class="status-text">Diyaarinaya</span>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-text">"The Baguette & Chips are absolutely DELICIOUS! Highly recommend!"</div>
+                <div class="testimonial-author">— Fatima Mohammed</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-text">"Quick wash service is excellent! My car looks brand new!"</div>
+                <div class="testimonial-author">— Ibrahim Said</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT US SECTION ==================== -->
+    <section class="about-section">
+        <h2 class="about-title">🏢 About Duco Waalid</h2>
+        <div class="about-text">
+            Welcome to <strong>Duco Waalid</strong> - Your One-Stop Shop for Fast Food, Fresh Tea, and Professional Car Wash Services! 🚗☕🍔
+        </div>
+        <div class="about-text">
+            Located in the heart of <strong>Jigjiga Yar</strong>, we've been serving our community with passion and dedication. We pride ourselves on quality, speed, and customer satisfaction. Every cup of tea is brewed with care, every meal is prepared fresh, and every car wash is done with attention to detail.
+        </div>
+        <div class="about-text">
+            <strong>Our Mission:</strong> To bring fast, affordable, and high-quality services to Jigjiga Yar. We believe in serving with a smile! 😊
+        </div>
+        <div class="about-features">
+            <div class="about-feature">⚡ Fast Service</div>
+            <div class="about-feature">✨ Quality Food</div>
+            <div class="about-feature">🚀 Quick Delivery</div>
+            <div class="about-feature">💯 Customer Care</div>
+        </div>
+    </section>
+
+    <!-- ==================== POPULAR ITEMS SECTION ==================== -->
+    <section class="popular-section">
+        <h2 class="popular-title">⭐ Most Popular Items</h2>
+        <div class="popular-grid">
+            <div class="popular-card">
+                <div class="popular-badge">🔥 BESTSELLER</div>
+                <img src="image_aed75620.png" alt="Baguette & Chips" class="popular-image">
+                <div class="popular-info">
+                    <div class="popular-name">Baguette Ukun & Chips</div>
+                    <div class="popular-price">11,000 SLN</div>
                 </div>
-                <div class="status-step">
-                    <div class="status-indicator" id="status-leaving"></div>
-                    <span class="status-text">Loo Soo Saaray</span>
+            </div>
+            <div class="popular-card">
+                <div class="popular-badge">🔥 BESTSELLER</div>
+                <img src="images%20(2).jpeg" alt="Shaah Baraad" class="popular-image">
+                <div class="popular-info">
+                    <div class="popular-name">Shaah Baraad</div>
+                    <div class="popular-price">2,000 SLN</div>
                 </div>
-                <div class="status-step">
-                    <div class="status-indicator" id="status-delivery"></div>
-                    <span class="status-text">Dhaweeye Jidka</span>
+            </div>
+            <div class="popular-card">
+                <div class="popular-badge">🔥 BESTSELLER</div>
+                <img src="images%20(3).jpeg" alt="Shaah Soolane" class="popular-image">
+                <div class="popular-info">
+                    <div class="popular-name">Shaah Soolane</div>
+                    <div class="popular-price">2,000 SLN</div>
                 </div>
-                <div class="status-step">
-                    <div class="status-indicator" id="status-arrived"></div>
-                    <span class="status-text">Wuu Ku Soo Gaadhay</span>
-                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section class="contact-section">
+        <h2 class="contact-title">📞 Get In Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📱</div>
+                <div class="contact-label">WhatsApp</div>
+                <div class="contact-value">+252 639 080 072</div>
+                <button class="contact-btn" onclick="window.open('https://wa.me/252639080072', '_blank')">💬 Chat Now</button>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">☎️</div>
+                <div class="contact-label">Phone Call</div>
+                <div class="contact-value">+252 639 080 072</div>
+                <button class="contact-btn" onclick="window.location.href='tel:+252639080072'">📞 Call Now</button>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <div class="contact-label">Location</div>
+                <div class="contact-value">Jigjiga Yar, Jigjiga</div>
+                <button class="contact-btn" onclick="alert('📍 We deliver to: Waafi Maal, Goolada Sare & Goolada Hoose')">📍 Delivery Zone</button>
             </div>
         </div>
     </section>
@@ -671,7 +1004,7 @@
         <h2 class="menu-title">☕ Shaah & Sharaab (Beverages)</h2>
         <div class="items-grid">
             <div class="item-card">
-                <div class="item-emoji">☕</div>
+                <img src="images%20(2).jpeg" alt="Shaah Baraad" class="item-image">
                 <div class="item-name">Shaah Baraad</div>
                 <div class="item-price">2,000 SLN</div>
                 <button class="add-btn" onclick="addToCart('shaah-baraad', 'Shaah Baraad', 2000)">➕ Kudar</button>
@@ -683,7 +1016,7 @@
             </div>
 
             <div class="item-card">
-                <div class="item-emoji">🍵</div>
+                <img src="images%20(3).jpeg" alt="Shaah Soolane" class="item-image">
                 <div class="item-name">Shaah Soolane</div>
                 <div class="item-price">2,000 SLN</div>
                 <button class="add-btn" onclick="addToCart('shaah-soolane', 'Shaah Soolane', 2000)">➕ Kudar</button>
@@ -695,7 +1028,7 @@
             </div>
 
             <div class="item-card">
-                <div class="item-emoji">🫖</div>
+                <img src="maxresdefault.jpg" alt="Shaah Macaan Yar" class="item-image">
                 <div class="item-name">Shaah Macaan Yar</div>
                 <div class="item-price">2,000 SLN</div>
                 <button class="add-btn" onclick="addToCart('shaah-macaan', 'Shaah Macaan Yar', 2000)">➕ Kudar</button>
@@ -707,7 +1040,7 @@
             </div>
 
             <div class="item-card">
-                <div class="item-emoji">🍶</div>
+                <img src="maxresdefault.jpg" alt="Shaah Bigays" class="item-image">
                 <div class="item-name">Shaah Bigays</div>
                 <div class="item-price">2,000 SLN</div>
                 <button class="add-btn" onclick="addToCart('shaah-bigays', 'Shaah Bigays', 2000)">➕ Kudar</button>
@@ -726,7 +1059,7 @@
         <div class="items-grid">
             <div class="item-card">
                 <div class="promo-badge">🔥 LAUNCH PROMO</div>
-                <div class="item-emoji">🥖</div>
+                <img src="image_aed75620.png" alt="Baguette Ukun & Chips" class="item-image">
                 <div class="item-name">Baguette Ukun & Chips</div>
                 <div class="item-price">11,000 SLN</div>
                 <button class="add-btn" onclick="addToCart('baguette-chips', 'Baguette Ukun & Chips', 11000)">➕ Kudar</button>
@@ -734,6 +1067,30 @@
                     <button class="qty-btn" onclick="changeQty('baguette-chips', -1)">−</button>
                     <span class="qty-display" id="qty-display-baguette-chips">1</span>
                     <button class="qty-btn" onclick="changeQty('baguette-chips', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-emoji">🍕</div>
+                <div class="item-name">Hilib Burger</div>
+                <div class="item-price">9,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('hilib-burger', 'Hilib Burger', 9000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-hilib-burger" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('hilib-burger', -1)">−</button>
+                    <span class="qty-display" id="qty-display-hilib-burger">1</span>
+                    <button class="qty-btn" onclick="changeQty('hilib-burger', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-emoji">🍟</div>
+                <div class="item-name">Chips Yar</div>
+                <div class="item-price">3,500 SLN</div>
+                <button class="add-btn" onclick="addToCart('chips-yar', 'Chips Yar', 3500)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-chips-yar" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('chips-yar', -1)">−</button>
+                    <span class="qty-display" id="qty-display-chips-yar">1</span>
+                    <button class="qty-btn" onclick="changeQty('chips-yar', 1)">+</button>
                 </div>
             </div>
         </div>
@@ -766,6 +1123,18 @@
                     <button class="qty-btn" onclick="changeQty('premium-wash', 1)">+</button>
                 </div>
             </div>
+
+            <div class="item-card">
+                <div class="item-emoji">🧼</div>
+                <div class="item-name">Full Detailing</div>
+                <div class="item-price">35,000 SLN</div>
+                <button class="add-btn" onclick="addToCart('full-detail', 'Full Detailing', 35000)">➕ Kudar</button>
+                <div class="qty-selector" id="qty-full-detail" style="display: none;">
+                    <button class="qty-btn" onclick="changeQty('full-detail', -1)">−</button>
+                    <span class="qty-display" id="qty-display-full-detail">1</span>
+                    <button class="qty-btn" onclick="changeQty('full-detail', 1)">+</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -790,80 +1159,96 @@
             >
         </div>
 
+        <div class="location-input-box">
+            <label for="phone-number">📞 Phone Number:</label>
+            <input 
+                type="tel" 
+                id="phone-number" 
+                placeholder="+252 639 080 072"
+            >
+        </div>
+
         <div class="modal-footer">
             <div class="modal-total">
                 <span class="modal-total-label">Wadarta Guud</span>
                 <span class="modal-total-price" id="modal-total">0 SLN</span>
             </div>
-            <button class="order-btn" onclick="submitOrder()">💬 Dalbo Hada</button>
+            <button class="order-btn" onclick="submitOrder()">📲 Order via WhatsApp</button>
         </div>
     </div>
 </div>
 
 <!-- ==================== FOOTER ==================== -->
 <footer>
-    <p>© 2025 Duco Waalid Fast Food, Tea Shop & Car Wash | Jigjiga Yar 🇸🇴</p>
-    <p>📞 +252 639 080 072 | ⏰ Open Daily 7AM - 10PM</p>
+    <div class="social-links">
+        <button class="social-btn" onclick="window.open('https://wa.me/252639080072', '_blank')" title="WhatsApp">💬</button>
+        <button class="social-btn" onclick="window.location.href='tel:+252639080072'" title="Call">📞</button>
+        <button class="social-btn" onclick="alert('Follow us on Instagram: @DucoWaalid')" title="Instagram">📸</button>
+        <button class="social-btn" onclick="alert('Follow us on Facebook: Duco Waalid')" title="Facebook">👍</button>
+    </div>
+    <p>© 2025 Duco Waalid Fast Food, Tea Shop & Car Wash | Jigjiga Yar 🍽️</p>
+    <p>📞 +252 639 080 072 | ⏰ Open Daily 7AM - 10PM | 🚀 Fast Delivery Inside Jigjiga Yar</p>
 </footer>
 
 <script>
-    // ==================== STATE MANAGEMENT ====================
-    let cart = {};
-    const SHOP_PHONE = "252639080072";
-    const HUB_COORDS = [9.5559, 42.5964]; // Jigjiga Yar Hub coordinates
-    let map = null;
-    let deliveryMarker = null;
-    let deliveryIcon = null;
-    let trackerActive = false;
-    let trackerInterval = null;
-    let deliveryStep = 0;
+    // ==================== JOKES DATABASE ====================
+    const jokes = [
+        "Why did the tea go to school? To get a little BREW-der! ☕",
+        "What did the car wash say? I'm on a ROLL! 🚗",
+        "Why don't eggs tell secrets? Because they might crack under pressure! 🥚",
+        "What did the baguette say to the chips? You're my better HALF! 🥖",
+        "Why did the delivery bike go to the gym? To get more WHEELY strong! 🏍️",
+        "What did the car say to the wash? WHEELY nice to see you! 🚗",
+        "Why did the tea date the coffee? They had BREW-tiful chemistry! ☕",
+        "What do you call a sleeping bull? DOZE-er! 🚗",
+        "Why don't chips ever get lonely? They're always in a BUNCH! 🍟",
+        "What did Duco Waalid say? Come hungry, leave HAPPY! 😊",
+    ];
 
-    // ==================== MAP INITIALIZATION ====================
-    function initializeMap() {
-        // Initialize Leaflet Map
-        map = L.map('leaflet-map').setView(HUB_COORDS, 15);
+    // ==================== BUSINESS HOURS ====================
+    const OPEN_HOUR = 7;
+    const CLOSE_HOUR = 22;
 
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
-        }).addTo(map);
+    function isBusinessOpen() {
+        const now = new Date();
+        const hour = now.getHours();
+        return hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+    }
 
-        // Create custom icon for Duco Waalid Hub
-        const hubIcon = L.divIcon({
-            html: `
-                <div style="
-                    background: linear-gradient(135deg, #005F60 0%, #008A8B 100%);
-                    color: white;
-                    padding: 8px 12px;
-                    border-radius: 12px;
-                    font-weight: 700;
-                    font-size: 12px;
-                    box-shadow: 0 4px 12px rgba(0, 95, 96, 0.3);
-                    white-space: nowrap;
-                    border: 2px solid white;
-                ">
-                    🏢 Duco Waalid Hub
-                </div>
-            `,
-            className: 'hub-marker',
-            iconSize: [150, 30],
-            iconAnchor: [75, 30]
-        });
+    function updateBusinessStatus() {
+        const isOpen = isBusinessOpen();
+        const statusBadge = document.getElementById('status-badge');
+        const statusText = document.getElementById('status-text');
+        const statusDot = document.getElementById('status-dot');
+        const statusBanner = document.getElementById('status-banner');
 
-        // Add hub marker
-        L.marker(HUB_COORDS, { icon: hubIcon })
-            .bindPopup(
-                `<div style="color: #005F60; font-weight: 700;">
-                    🏢 Duco Waalid Hub<br>
-                    Jigjiga Yar<br>
-                    <small>📞 +252 639 080 072</small>
-                </div>`
-            )
-            .addTo(map);
+        if (isOpen) {
+            statusBadge.classList.remove('closed');
+            statusBadge.classList.add('open');
+            statusDot.textContent = '🟢';
+            statusText.textContent = 'OPEN NOW';
+            statusBanner.classList.remove('closed');
+            statusBanner.textContent = '✅ We\'re OPEN! Order now and get fast delivery! 🚀';
+        } else {
+            statusBadge.classList.remove('open');
+            statusBadge.classList.add('closed');
+            statusDot.textContent = '🔴';
+            statusText.textContent = 'CLOSED';
+            statusBanner.classList.add('closed');
+            statusBanner.textContent = '🕒 We\'re closed now. We open at 7:00 AM tomorrow!';
+        }
+    }
+
+    // ==================== JOKE SYSTEM ====================
+    function getRandomJoke() {
+        const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+        document.getElementById('joke-text').textContent = randomJoke;
     }
 
     // ==================== CART MANAGEMENT ====================
+    let cart = {};
+    const SHOP_PHONE = "252639080072";
+
     function addToCart(id, name, price) {
         if (!cart[id]) {
             cart[id] = { name, price, qty: 0 };
@@ -946,147 +1331,61 @@
         openCheckout();
     }
 
-    // ==================== ORDER SUBMISSION ====================
+    // ==================== WHATSAPP ORDER SUBMISSION ====================
     function submitOrder() {
         const location = document.getElementById('delivery-location').value.trim();
+        const phone = document.getElementById('phone-number').value.trim();
+        
         if (!location) {
             alert('Fadlan qor halka aad fadhido!');
             return;
         }
 
-        // Close modal and start tracking
+        if (!phone) {
+            alert('Fadlan qor tirada telefoonkaaga!');
+            return;
+        }
+
+        // Build order message
+        let orderMessage = "🍽️ *NEW ORDER - Duco Waalid*\n\n";
+        orderMessage += "📋 *Order Items:*\n";
+        let total = 0;
+
+        for (let id in cart) {
+            const item = cart[id];
+            const itemTotal = item.qty * item.price;
+            total += itemTotal;
+            orderMessage += `• ${item.name} x${item.qty} = ${itemTotal.toLocaleString('en-US')} SLN\n`;
+        }
+
+        orderMessage += `\n💰 *Total: ${total.toLocaleString('en-US')} SLN*\n`;
+        orderMessage += `\n📍 *Delivery Location:* ${location}\n`;
+        orderMessage += `📞 *Customer Phone:* ${phone}\n`;
+        orderMessage += `\n⏰ Order Time: ${new Date().toLocaleString()}`;
+
+        // Create WhatsApp link
+        const encodedMessage = encodeURIComponent(orderMessage);
+        const whatsappUrl = `https://wa.me/${SHOP_PHONE}?text=${encodedMessage}`;
+
+        // Open WhatsApp
+        window.open(whatsappUrl, '_blank');
+
+        // Close modal and reset
         closeCheckout();
-        
-        // Scroll to map
         setTimeout(() => {
-            document.getElementById('map-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            startDeliveryTracking(location);
-        }, 300);
+            alert('✅ Order sent to WhatsApp! Duca will confirm your order soon.');
+            cart = {};
+            updateCartUI();
+            document.getElementById('delivery-location').value = '';
+            document.getElementById('phone-number').value = '';
+        }, 500);
     }
 
-    // ==================== DELIVERY TRACKING ENGINE ====================
-    function startDeliveryTracking(location) {
-        trackerActive = true;
-        deliveryStep = 0;
-
-        // Show tracker status
-        document.getElementById('tracker-status').classList.add('active');
-        document.getElementById('status-timeline').classList.add('active');
-
-        // Add customer delivery marker
-        const customerCoords = [
-            HUB_COORDS[0] + (Math.random() - 0.5) * 0.05,
-            HUB_COORDS[1] + (Math.random() - 0.5) * 0.05
-        ];
-
-        // Custom delivery icon
-        const deliveryIconHtml = L.divIcon({
-            html: `<div style="font-size: 2rem; animation: bounce 0.6s infinite;">🏍️</div>`,
-            className: 'delivery-marker',
-            iconSize: [40, 40],
-            iconAnchor: [20, 20]
-        });
-
-        deliveryMarker = L.marker(HUB_COORDS, { icon: deliveryIconHtml }).addTo(map);
-
-        // Start animation
-        let step = 0;
-        const totalSteps = 120; // 2 minutes at 60 FPS equivalent
-
-        trackerInterval = setInterval(() => {
-            step++;
-            const progress = step / totalSteps;
-
-            // Calculate current position
-            const currentLat = HUB_COORDS[0] + (customerCoords[0] - HUB_COORDS[0]) * progress;
-            const currentLng = HUB_COORDS[1] + (customerCoords[1] - HUB_COORDS[1]) * progress;
-
-            deliveryMarker.setLatLng([currentLat, currentLng]);
-
-            // Update tracking status
-            updateTrackingStatus(progress);
-
-            // Animation complete
-            if (step >= totalSteps) {
-                clearInterval(trackerInterval);
-                deliveryMarker.setLatLng(customerCoords);
-                finalizeDelivery(location);
-            }
-        }, 1000); // Update every second
-
-        // Add polyline from hub to customer
-        L.polyline([HUB_COORDS, customerCoords], {
-            color: '#00E676',
-            weight: 3,
-            opacity: 0.7,
-            dashArray: '5, 5'
-        }).addTo(map);
-
-        // Fit map bounds
-        const group = new L.featureGroup([
-            L.marker(HUB_COORDS),
-            L.marker(customerCoords)
-        ]);
-        map.fitBounds(group.getBounds().pad(0.1));
-    }
-
-    function updateTrackingStatus(progress) {
-        // Preparing (0-25%)
-        if (progress < 0.25) {
-            document.getElementById('status-preparing').classList.add('active');
-            document.getElementById('status-leaving').classList.remove('active');
-            document.getElementById('status-delivery').classList.remove('active');
-            document.getElementById('status-arrived').classList.remove('active');
-        }
-        // Leaving (25-50%)
-        else if (progress < 0.5) {
-            document.getElementById('status-preparing').classList.remove('active');
-            document.getElementById('status-leaving').classList.add('active');
-            document.getElementById('status-delivery').classList.remove('active');
-            document.getElementById('status-arrived').classList.remove('active');
-        }
-        // In Delivery (50-75%)
-        else if (progress < 0.75) {
-            document.getElementById('status-preparing').classList.remove('active');
-            document.getElementById('status-leaving').classList.remove('active');
-            document.getElementById('status-delivery').classList.add('active');
-            document.getElementById('status-arrived').classList.remove('active');
-        }
-        // Arrived (75%+)
-        else {
-            document.getElementById('status-preparing').classList.remove('active');
-            document.getElementById('status-leaving').classList.remove('active');
-            document.getElementById('status-delivery').classList.remove('active');
-            document.getElementById('status-arrived').classList.add('active');
-        }
-    }
-
-    function finalizeDelivery(location) {
-        // Show completion message
-        setTimeout(() => {
-            alert(`✅ Adeegga Waa Ku Soo Gaadhay!\n📍 Location: ${location}\n\nShukran! 🙏`);
-            resetTracker();
-        }, 2000);
-    }
-
-    function resetTracker() {
-        trackerActive = false;
-        document.getElementById('tracker-status').classList.remove('active');
-        document.getElementById('status-timeline').classList.remove('active');
-        cart = {};
-        updateCartUI();
-    }
-
-    // ==================== PAGE INITIALIZATION ====================
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeMap();
-    });
-
-    // Close modal when clicking outside
-    document.getElementById('checkout-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeCheckout();
-        }
+    // ==================== INITIALIZATION ====================
+    document.addEventListener('DOMContentLoaded', () => {
+        updateBusinessStatus();
+        // Update status every minute
+        setInterval(updateBusinessStatus, 60000);
     });
 </script>
 
