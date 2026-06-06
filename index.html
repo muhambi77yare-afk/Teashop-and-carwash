@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duco Waalid - Tea Shop, Fast Foods & Car Wash</title>
     
-    <!-- Leaflet.js CDN for Interactive Maps -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-    
     <style>
         :root {
             --primary: #005F60;
@@ -32,192 +28,286 @@
             background: var(--bg);
             color: var(--dark);
             line-height: 1.6;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* ==================== MAIN CONTAINER ==================== */
-        .app-container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        /* ==================== MAP BACKGROUND ==================== */
-        .map-background {
-            flex: 1;
-            position: relative;
-            background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
-        }
-
-        #leaflet-map {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ==================== FLOATING SIDE PANEL ==================== */
-        .side-panel {
-            width: 420px;
-            background: var(--surface);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            z-index: 100;
         }
 
         /* ==================== HEADER ==================== */
-        .panel-header {
+        header {
             background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
             color: white;
-            padding: 20px;
-            text-align: center;
-            flex-shrink: 0;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             box-shadow: var(--shadow-md);
         }
 
-        .panel-header h1 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            letter-spacing: -0.5px;
+        .header-content {
+            text-align: center;
+            flex: 1;
         }
 
-        .panel-header p {
-            font-size: 0.75rem;
-            opacity: 0.9;
+        .header-content h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
             margin: 0;
         }
 
-        .status-badge {
-            display: inline-block;
+        .header-content p {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin: 4px 0 0 0;
+        }
+
+        /* ==================== HAMBURGER MENU ==================== */
+        .hamburger {
+            font-size: 1.8rem;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
             background: var(--accent);
             color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-
-        /* ==================== TABBED MENU ==================== */
-        .menu-tabs {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
-            border-bottom: 2px solid #e5e7eb;
-            flex-shrink: 0;
-            background: #f9fafb;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 14px 16px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
-            color: #6b7280;
+            font-size: 1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            position: relative;
-            bottom: -2px;
         }
 
-        .tab-btn:hover {
-            color: var(--primary);
-            background: #f3f4f6;
+        .cart-badge:hover {
+            transform: scale(1.1);
         }
 
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--accent);
-        }
-
-        /* ==================== SCROLLABLE CONTENT ==================== */
-        .panel-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .tab-content {
+        /* ==================== DRAWER MENU ==================== */
+        .drawer-overlay {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            animation: fadeIn 0.3s ease;
         }
 
-        .tab-content.active {
+        .drawer-overlay.active {
             display: block;
         }
 
-        /* ==================== MENU ITEMS ==================== */
-        .items-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
-        .item-card {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 14px;
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
+        .drawer-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            z-index: 201;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drawer-menu.active {
+            right: 0;
+        }
+
+        .drawer-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
+            color: white;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .item-card:hover {
+        .drawer-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .drawer-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .drawer-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .drawer-item {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .drawer-item:hover {
+            background: #f3f4f6;
+            color: var(--primary);
+            padding-left: 20px;
+        }
+
+        .drawer-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ==================== HERO BANNER ==================== */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, #008A8B 100%);
+            color: white;
+            padding: 24px 20px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 30px;
             box-shadow: var(--shadow-md);
+        }
+
+        .hero-banner h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-banner p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin: 6px 0;
+        }
+
+        /* ==================== SECTION TITLE ==================== */
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin: 30px 0 20px 0;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        /* ==================== ITEMS GRID ==================== */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .item-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
             border-color: var(--accent);
         }
 
-        .item-info {
-            flex: 1;
+        .item-image {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .item-content {
+            padding: 16px;
         }
 
         .item-name {
             font-weight: 700;
             color: var(--dark);
             font-size: 0.95rem;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
         .item-price {
             color: var(--primary);
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
         }
 
         .item-controls {
             display: flex;
-            align-items: center;
             gap: 8px;
+            align-items: center;
         }
 
         .qty-btn {
             background: #e5e7eb;
             border: none;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             color: var(--primary);
             transition: all 0.2s;
-            font-size: 0.9rem;
         }
 
         .qty-btn:hover {
             background: var(--accent);
-            color: var(--primary);
         }
 
         .qty-display {
+            flex: 1;
+            text-align: center;
             font-weight: 700;
             color: var(--primary);
-            min-width: 24px;
-            text-align: center;
-            font-size: 0.9rem;
         }
 
         .add-btn {
@@ -225,12 +315,12 @@
             color: white;
             border: none;
             padding: 8px 12px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             font-size: 0.85rem;
             transition: all 0.3s ease;
-            white-space: nowrap;
+            flex: 1;
         }
 
         .add-btn:hover {
@@ -238,59 +328,70 @@
             transform: scale(1.05);
         }
 
-        /* ==================== JOKE SECTION ==================== */
-        .joke-widget {
-            background: linear-gradient(135deg, #FCD34D 0%, #FBBF24 100%);
+        /* ==================== WIDE BANNER IMAGE ==================== */
+        .banner-item-card {
+            background: white;
             border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            margin-top: auto;
-            flex-shrink: 0;
+            overflow: hidden;
             box-shadow: var(--shadow-md);
+            margin-bottom: 30px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
         }
 
-        .joke-title {
-            font-size: 0.85rem;
-            color: #92400E;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .banner-item-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-        }
-
-        .joke-text {
-            font-size: 0.95rem;
-            color: #78350F;
-            font-weight: 600;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-
-        .joke-btn {
-            background: white;
-            color: #D97706;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            font-size: 4rem;
             font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-            width: 100%;
         }
 
-        .joke-btn:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-md);
+        .banner-content {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .banner-info {
+            flex: 1;
+        }
+
+        .banner-name {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .banner-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .banner-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
 
         /* ==================== CHECKOUT MODAL ==================== */
         .modal {
             display: none;
             position: fixed;
-            z-index: 200;
+            z-index: 300;
             left: 0;
             top: 0;
             width: 100%;
@@ -304,7 +405,7 @@
         }
 
         .modal-content {
-            background: var(--surface);
+            background: white;
             width: 100%;
             padding: 24px 20px;
             border-radius: 24px 24px 0 0;
@@ -379,6 +480,7 @@
         .cart-item-price {
             color: var(--primary);
             font-weight: 700;
+            margin: 0 12px;
         }
 
         .cart-item-remove {
@@ -391,7 +493,6 @@
             font-size: 0.85rem;
             font-weight: 600;
             transition: all 0.2s;
-            margin-left: 8px;
         }
 
         .cart-item-remove:hover {
@@ -476,65 +577,34 @@
             box-shadow: var(--shadow-lg);
         }
 
-        /* ==================== CART BADGE ==================== */
-        .cart-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--accent);
-            color: var(--primary);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            z-index: 101;
-            transition: all 0.3s ease;
+        .order-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .cart-badge:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-lg);
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
         }
 
         /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 1024px) {
-            .side-panel {
-                width: 360px;
+        @media (max-width: 768px) {
+            .banner-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .banner-image {
+                height: 200px;
             }
 
             .items-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-            }
-
-            .map-background {
-                height: 40%;
-                display: none;
-            }
-
-            .side-panel {
-                width: 100%;
-                height: 60%;
-            }
-
-            .panel-header h1 {
-                font-size: 1.1rem;
-            }
-
-            .tab-btn {
-                font-size: 0.8rem;
-                padding: 12px 8px;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .modal-footer {
@@ -545,190 +615,175 @@
                 width: 100%;
             }
         }
-
-        /* ==================== SCROLLBAR STYLING ==================== */
-        .panel-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .panel-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .panel-content::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .panel-content::-webkit-scrollbar-thumb:hover {
-            background: #008A8B;
-        }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <!-- ==================== MAP BACKGROUND ==================== -->
-    <div class="map-background">
-        <div id="leaflet-map"></div>
-        <div class="cart-badge" onclick="openCheckout()" title="Calaacal Ku Biir">
-            <span id="cart-count">0</span>
-        </div>
+<!-- ==================== HEADER ==================== -->
+<header>
+    <div class="header-content">
+        <h1>🍽️ Duco Waalid</h1>
+        <p>Tea Shop • Fast Foods • Car Wash</p>
     </div>
+    <button class="cart-badge" onclick="openCheckout()" title="Calaacal Ku Biir">
+        <span id="cart-count">0</span>
+    </button>
+    <button class="hamburger" onclick="toggleDrawer()">☰</button>
+</header>
 
-    <!-- ==================== FLOATING SIDE PANEL ==================== -->
-    <div class="side-panel">
-        <!-- HEADER -->
-        <div class="panel-header">
-            <h1>🍽️ Duco Waalid</h1>
-            <p>Tea Shop • Fast Foods • Car Wash</p>
-            <div class="status-badge" id="status-badge">🟢 FURAN</div>
+<!-- ==================== DRAWER MENU ==================== -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer-menu" id="drawer-menu">
+    <div class="drawer-header">
+        <h2>Menu</h2>
+        <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-content">
+        <div class="drawer-item">
+            <a href="#about" onclick="closeDrawer()">🏢 About Duco Waalid</a>
         </div>
-
-        <!-- TABBED MENU -->
-        <div class="menu-tabs">
-            <button class="tab-btn active" onclick="switchTab('food')">
-                🍵 Shaah & Cunto
-            </button>
-            <button class="tab-btn" onclick="switchTab('carwash')">
-                🚗 Dhaqista Gaadiidka
-            </button>
+        <div class="drawer-item">
+            <a href="#terms" onclick="closeDrawer()">📋 Terms & Conditions</a>
         </div>
-
-        <!-- SCROLLABLE CONTENT -->
-        <div class="panel-content">
-            <!-- TAB 1: SHAAH & CUNTO -->
-            <div class="tab-content active" id="tab-food">
-                <div class="items-grid">
-                    <!-- Shaah Baraad -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">☕ Shaah Baraad</div>
-                            <div class="item-price">2,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('shaah-baraad', -1)">−</button>
-                            <span class="qty-display" id="qty-shaah-baraad">0</span>
-                            <button class="qty-btn" onclick="changeQty('shaah-baraad', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('shaah-baraad', 'Shaah Baraad', 2000)">Kudar</button>
-                        </div>
-                    </div>
-
-                    <!-- Shaah Soolane -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">🍵 Shaah Soolane</div>
-                            <div class="item-price">2,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('shaah-soolane', -1)">−</button>
-                            <span class="qty-display" id="qty-shaah-soolane">0</span>
-                            <button class="qty-btn" onclick="changeQty('shaah-soolane', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('shaah-soolane', 'Shaah Soolane', 2000)">Kudar</button>
-                        </div>
-                    </div>
-
-                    <!-- Shaah Bigeys -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">🫖 Shaah Bigeys</div>
-                            <div class="item-price">2,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('shaah-bigeys', -1)">−</button>
-                            <span class="qty-display" id="qty-shaah-bigeys">0</span>
-                            <button class="qty-btn" onclick="changeQty('shaah-bigeys', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('shaah-bigeys', 'Shaah Bigeys', 2000)">Kudar</button>
-                        </div>
-                    </div>
-
-                    <!-- Shaah Soolane Macaan Yar -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">🍶 Shaah Macaan Yar</div>
-                            <div class="item-price">2,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('shaah-macaan', -1)">−</button>
-                            <span class="qty-display" id="qty-shaah-macaan">0</span>
-                            <button class="qty-btn" onclick="changeQty('shaah-macaan', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('shaah-macaan', 'Shaah Macaan Yar', 2000)">Kudar</button>
-                        </div>
-                    </div>
-
-                    <!-- Baguette Ukun & Chips -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">🥖 Baguette Ukun & Chips</div>
-                            <div class="item-price">11,000 SLN 🔥</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('baguette-chips', -1)">−</button>
-                            <span class="qty-display" id="qty-baguette-chips">0</span>
-                            <button class="qty-btn" onclick="changeQty('baguette-chips', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('baguette-chips', 'Baguette Ukun & Chips', 11000)">Kudar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 2: CAR WASH SERVICES -->
-            <div class="tab-content" id="tab-carwash">
-                <div class="items-grid">
-                    <!-- Quick Wash -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">💦 Quick Wash</div>
-                            <div class="item-price">15,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('quick-wash', -1)">−</button>
-                            <span class="qty-display" id="qty-quick-wash">0</span>
-                            <button class="qty-btn" onclick="changeQty('quick-wash', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('quick-wash', 'Quick Wash', 15000)">Kudar</button>
-                        </div>
-                    </div>
-
-                    <!-- Premium Wash -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">✨ Premium Wash</div>
-                            <div class="item-price">25,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('premium-wash', -1)">−</button>
-                            <span class="qty-display" id="qty-premium-wash">0</span>
-                            <button class="qty-btn" onclick="changeQty('premium-wash', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('premium-wash', 'Premium Wash', 25000)">Kudar</button>
-                        </div>
-                    </div>
-
-                    <!-- Full Detailing -->
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-name">🧼 Full Detailing</div>
-                            <div class="item-price">35,000 SLN</div>
-                        </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="changeQty('full-detail', -1)">−</button>
-                            <span class="qty-display" id="qty-full-detail">0</span>
-                            <button class="qty-btn" onclick="changeQty('full-detail', 1)">+</button>
-                            <button class="add-btn" onclick="addToCart('full-detail', 'Full Detailing', 35000)">Kudar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- JOKE WIDGET -->
-        <div class="joke-widget">
-            <div class="joke-title">💬 Shactirada Maanta</div>
-            <div class="joke-text" id="joke-text">Nin reer miyi ah ayaa magaalo yimid, markaasuu arkay muraayad (guraanti). Isagoo iska dhex arkaya ayuu yidhi: 'Ilaahayaw wejigani meel baan ku arkay!'</div>
-            <button class="joke-btn" onclick="getRandomJoke()">Eeg mid kale 🔄</button>
+        <div class="drawer-item">
+            <a href="#contact" onclick="closeDrawer()">📞 Contact Us</a>
         </div>
     </div>
 </div>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<main>
+    <!-- HERO BANNER -->
+    <section class="hero-banner">
+        <h2>🎯 Welcome to Duco Waalid</h2>
+        <p>Fresh Tea • Delicious Fast Foods • Professional Car Wash</p>
+        <p>📍 Delivery Zone: Jigjiga Yar</p>
+    </section>
+
+    <!-- SHAAH & CUNTO SECTION -->
+    <section>
+        <h2 class="section-title">☕ Shaah & Sharaab (Tea & Beverages)</h2>
+        <div class="items-grid">
+            <!-- Shaah Baraad -->
+            <div class="item-card">
+                <div class="item-image">☕</div>
+                <div class="item-content">
+                    <div class="item-name">Shaah Baraad</div>
+                    <div class="item-price">2,000 SLN</div>
+                    <div class="item-controls">
+                        <button class="qty-btn" onclick="changeQty('shaah-baraad', -1)">−</button>
+                        <div class="qty-display" id="qty-shaah-baraad">0</div>
+                        <button class="qty-btn" onclick="changeQty('shaah-baraad', 1)">+</button>
+                        <button class="add-btn" onclick="addToCart('shaah-baraad', 'Shaah Baraad', 2000)">Kudar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shaah Soolane -->
+            <div class="item-card">
+                <div class="item-image">🍵</div>
+                <div class="item-content">
+                    <div class="item-name">Shaah Soolane</div>
+                    <div class="item-price">2,000 SLN</div>
+                    <div class="item-controls">
+                        <button class="qty-btn" onclick="changeQty('shaah-soolane', -1)">−</button>
+                        <div class="qty-display" id="qty-shaah-soolane">0</div>
+                        <button class="qty-btn" onclick="changeQty('shaah-soolane', 1)">+</button>
+                        <button class="add-btn" onclick="addToCart('shaah-soolane', 'Shaah Soolane', 2000)">Kudar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shaah Macaan Yar -->
+            <div class="item-card">
+                <div class="item-image">🫖</div>
+                <div class="item-content">
+                    <div class="item-name">Shaah Macaan Yar Leh</div>
+                    <div class="item-price">2,000 SLN</div>
+                    <div class="item-controls">
+                        <button class="qty-btn" onclick="changeQty('shaah-macaan', -1)">−</button>
+                        <div class="qty-display" id="qty-shaah-macaan">0</div>
+                        <button class="qty-btn" onclick="changeQty('shaah-macaan', 1)">+</button>
+                        <button class="add-btn" onclick="addToCart('shaah-macaan', 'Shaah Macaan Yar Leh', 2000)">Kudar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shaah Bigays -->
+            <div class="item-card">
+                <div class="item-image">🍶</div>
+                <div class="item-content">
+                    <div class="item-name">Shaah Bigays</div>
+                    <div class="item-price">2,000 SLN</div>
+                    <div class="item-controls">
+                        <button class="qty-btn" onclick="changeQty('shaah-bigays', -1)">−</button>
+                        <div class="qty-display" id="qty-shaah-bigays">0</div>
+                        <button class="qty-btn" onclick="changeQty('shaah-bigays', 1)">+</button>
+                        <button class="add-btn" onclick="addToCart('shaah-bigays', 'Shaah Bigays', 2000)">Kudar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGUETTE BANNER SECTION -->
+    <section>
+        <h2 class="section-title">🍔 Cunto Fudud (Fast Foods)</h2>
+        <div class="banner-item-card">
+            <div class="banner-image">🥖</div>
+            <div class="banner-content">
+                <div class="banner-info">
+                    <div class="banner-name">Baguette Ukun & Chips</div>
+                    <div class="banner-price">11,000 SLN 🔥</div>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Special Launch Price!</p>
+                </div>
+                <div class="banner-controls">
+                    <button class="qty-btn" onclick="changeQty('baguette-chips', -1)">−</button>
+                    <div class="qty-display" id="qty-baguette-chips">0</div>
+                    <button class="qty-btn" onclick="changeQty('baguette-chips', 1)">+</button>
+                    <button class="add-btn" onclick="addToCart('baguette-chips', 'Baguette Ukun & Chips', 11000)">Kudar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAR WASH SECTION -->
+    <section>
+        <h2 class="section-title">🚗 Dhaqista Gaadiidka (Car Wash)</h2>
+        <div class="items-grid">
+            <!-- Normal Car Wash -->
+            <div class="item-card">
+                <div class="item-image">💦</div>
+                <div class="item-content">
+                    <div class="item-name">Normal Car Wash</div>
+                    <div class="item-price">25,000 SLN</div>
+                    <div class="item-controls">
+                        <button class="qty-btn" onclick="changeQty('car-normal', -1)">−</button>
+                        <div class="qty-display" id="qty-car-normal">0</div>
+                        <button class="qty-btn" onclick="changeQty('car-normal', 1)">+</button>
+                        <button class="add-btn" onclick="addToCart('car-normal', 'Normal Car Wash', 25000)">Kudar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUV Car Wash -->
+            <div class="item-card">
+                <div class="item-image">🚙</div>
+                <div class="item-content">
+                    <div class="item-name">SUV/Big Car Wash</div>
+                    <div class="item-price">35,000 SLN</div>
+                    <div class="item-controls">
+                        <button class="qty-btn" onclick="changeQty('car-suv', -1)">−</button>
+                        <div class="qty-display" id="qty-car-suv">0</div>
+                        <button class="qty-btn" onclick="changeQty('car-suv', 1)">+</button>
+                        <button class="add-btn" onclick="addToCart('car-suv', 'SUV/Big Car Wash', 35000)">Kudar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
 
 <!-- ==================== CHECKOUT MODAL ==================== -->
 <div class="modal" id="checkout-modal">
@@ -745,16 +800,7 @@
             <input 
                 type="text" 
                 id="delivery-location" 
-                placeholder="e.g., Car Wash Bay 2, Goolada Hoose..."
-            >
-        </div>
-
-        <div class="location-input-box">
-            <label for="phone-number">📞 Lambarka Telefoonka:</label>
-            <input 
-                type="tel" 
-                id="phone-number" 
-                placeholder="+252 639 080 072"
+                placeholder="e.g., Goolada Hoose, Near Hospital..."
             >
         </div>
 
@@ -763,85 +809,31 @@
                 <span class="modal-total-label">Guud ahaan</span>
                 <span class="modal-total-price" id="modal-total">0 SLN</span>
             </div>
-            <button class="order-btn" onclick="submitOrder()">📲 WhatsApp Halkaan</button>
+            <button class="order-btn" onclick="submitOrder()">📲 Dalbo Hada</button>
         </div>
     </div>
 </div>
 
-<script>
-    // ==================== AUTHENTIC SOMALI JOKES ==================== 
-    const somaliJokes = [
-        "Nin reer miyi ah ayaa magaalo yimid, markaasuu arkay muraayad (guraanti). Isagoo iska dhex arkaya ayuu yidhi: 'Ilaahayaw wejigani meel baan ku arkay!'",
-        "Nin baa saaxiibkii ku yidhi: 'Haddii aan dhimanayo hantidayda oo dhan adaan kuu reebayaa.' Saaxiibkii baa yidhi: 'Walaal hadda ma dhiman kartaa oo lacagta ma i siin kartaa?'",
-        "Wali ma aragtay qof markuu taleefanka ku weydiiyo 'Aaway furayaashaydii?' adiguna aad ku tidhaahdo 'Gacantaada ma ku haysaa?'",
-        "Nin baa makhaayad galay oo yidhi: 'Ii keena shaah baraad kulul!' Mudalabkii baa la yaabay oo yidhi: 'Ma baraad baa mise waa kulul yahay oday?'",
-        "Nin baa isaga yidhi: 'Aniga markaan dhali jirey waxaan ahayd yar, hadda waxaan noqday weyn. Halkee baa noqonaa kabtan?'",
-        "Gabar baa dhedig la hadli jirtay. Dhedig ayaa yidhi: 'Adigoo kaas la hadli kartaa hadday jiraan dhedig kale oo hadli karta ee walaalaad?'",
-        "Nin baa intuu beryahan dhex taagay yidhi: 'Beryan waa walac, waakii baa fac!'",
-        "Yar baa aabihii ku yidhi: 'Aabbe waxaad i tirtirtay, laakiin sidee bay u dhamaatay?' Aabihii baa yidhi: 'Wareer, waxaad ogeedee waa ka halis badan yahay!'",
-    ];
+<!-- ==================== FOOTER ==================== -->
+<footer>
+    <p>© 2025 Duco Waalid | Fast Foods • Tea Shop • Car Wash</p>
+    <p>📞 +252 639 080 072 | ⏰ Open Daily 7AM - 10PM</p>
+</footer>
 
+<script>
     // ==================== STATE ==================== 
     let cart = {};
     const SHOP_PHONE = "252639080072";
-    let currentTab = 'food';
 
-    // ==================== MAP INITIALIZATION ==================== 
-    function initializeMap() {
-        const HUB_COORDS = [9.5559, 42.5964];
-        const map = L.map('leaflet-map').setView(HUB_COORDS, 15);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
-        }).addTo(map);
-
-        const hubIcon = L.divIcon({
-            html: `
-                <div style="
-                    background: linear-gradient(135deg, #005F60 0%, #008A8B 100%);
-                    color: white;
-                    padding: 8px 12px;
-                    border-radius: 12px;
-                    font-weight: 700;
-                    font-size: 12px;
-                    box-shadow: 0 4px 12px rgba(0, 95, 96, 0.3);
-                    white-space: nowrap;
-                    border: 2px solid white;
-                ">
-                    🏢 Duco Waalid
-                </div>
-            `,
-            className: 'hub-marker',
-            iconSize: [120, 30],
-            iconAnchor: [60, 30]
-        });
-
-        L.marker(HUB_COORDS, { icon: hubIcon })
-            .bindPopup(
-                `<div style="color: #005F60; font-weight: 700;">
-                    🏢 Duco Waalid Hub<br>
-                    Jigjiga Yar<br>
-                    <small>📞 +252 639 080 072</small>
-                </div>`
-            )
-            .addTo(map);
+    // ==================== DRAWER MENU ==================== 
+    function toggleDrawer() {
+        document.getElementById('drawer-menu').classList.toggle('active');
+        document.getElementById('drawer-overlay').classList.toggle('active');
     }
 
-    // ==================== TAB SWITCHING ==================== 
-    function switchTab(tab) {
-        currentTab = tab;
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-        
-        document.getElementById('tab-' + tab).classList.add('active');
-        document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
-    }
-
-    // ==================== JOKES ==================== 
-    function getRandomJoke() {
-        const randomJoke = somaliJokes[Math.floor(Math.random() * somaliJokes.length)];
-        document.getElementById('joke-text').textContent = randomJoke;
+    function closeDrawer() {
+        document.getElementById('drawer-menu').classList.remove('active');
+        document.getElementById('drawer-overlay').classList.remove('active');
     }
 
     // ==================== CART MANAGEMENT ==================== 
@@ -860,9 +852,9 @@
             cart[id] = { name: '', price: 0, qty: 0 };
         }
         
-        cart[id].qty += change;
+        cart[id].qty = Math.max(0, cart[id].qty + change);
         
-        if (cart[id].qty <= 0) {
+        if (cart[id].qty === 0) {
             delete cart[id];
         }
         
@@ -901,7 +893,7 @@
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-qty">${item.qty}x</div>
+                        <div class="cart-item-qty">${item.qty}x @ ${item.price.toLocaleString('en-US')} SLN</div>
                     </div>
                     <div class="cart-item-price">${itemTotal.toLocaleString('en-US')} SLN</div>
                     <button class="cart-item-remove" onclick="removeFromCart('${id}')">Tirtir</button>
@@ -925,57 +917,67 @@
         openCheckout();
     }
 
-    // ==================== WHATSAPP ORDER ==================== 
+    // ==================== WHATSAPP ORDER SUBMISSION ==================== 
     function submitOrder() {
         const location = document.getElementById('delivery-location').value.trim();
-        const phone = document.getElementById('phone-number').value.trim();
         
         if (!location) {
             alert('Fadlan qor halka aad fadhido!');
             return;
         }
 
-        if (!phone) {
-            alert('Fadlan qor tirada telefoonkaaga!');
+        if (Object.keys(cart).length === 0) {
+            alert('Calaacal xali ah ku jira!');
             return;
         }
 
-        let orderMessage = "🍽️ *CALAACAL CUSUB - Duco Waalid*\n\n";
-        orderMessage += "📋 *Calaacalka:*\n";
+        // Build order message
+        let orderMessage = "Duco Waalid Order! 🚀\n";
+        orderMessage += "----------------------\n";
+        
         let total = 0;
-
         for (let id in cart) {
             const item = cart[id];
             const itemTotal = item.qty * item.price;
             total += itemTotal;
-            orderMessage += `• ${item.name} x${item.qty} = ${itemTotal.toLocaleString('en-US')} SLN\n`;
+            orderMessage += `• ${item.qty}x ${item.name} (${itemTotal.toLocaleString('en-US')} SLN)\n`;
         }
 
-        orderMessage += `\n💰 *Guud ahaan: ${total.toLocaleString('en-US')} SLN*\n`;
-        orderMessage += `\n📍 *Halka Fadhidka:* ${location}\n`;
-        orderMessage += `📞 *Lambarka:* ${phone}\n`;
-        orderMessage += `\n⏰ Waqtiga: ${new Date().toLocaleString()}`;
+        orderMessage += "----------------------\n";
+        orderMessage += `Total: ${total.toLocaleString('en-US')} SLN\n`;
+        orderMessage += `📍 ${location}\n`;
+        orderMessage += `Mahadsanid! Waxaan joogaa inta u dhaxaysa labada gooladood.`;
 
+        // Create WhatsApp link
         const encodedMessage = encodeURIComponent(orderMessage);
         const whatsappUrl = `https://wa.me/${SHOP_PHONE}?text=${encodedMessage}`;
 
+        // Open WhatsApp
         window.open(whatsappUrl, '_blank');
 
+        // Close modal and reset
         closeCheckout();
         setTimeout(() => {
-            alert('✅ Calaacalka waa la diray! Duca ayaa kaa xaqiijinaya hadda!');
+            alert('✅ Calaacalka waa la diray WhatsApp-ka!');
             cart = {};
             updateCartUI();
             document.querySelectorAll('.qty-display').forEach(el => el.textContent = '0');
             document.getElementById('delivery-location').value = '';
-            document.getElementById('phone-number').value = '';
         }, 500);
     }
 
     // ==================== INITIALIZATION ==================== 
     document.addEventListener('DOMContentLoaded', () => {
-        initializeMap();
         updateCartUI();
+    });
+
+    // Close drawer when clicking outside
+    document.addEventListener('click', (e) => {
+        const drawer = document.getElementById('drawer-menu');
+        const hamburger = document.querySelector('.hamburger');
+        if (!drawer.contains(e.target) && !hamburger.contains(e.target)) {
+            closeDrawer();
+        }
     });
 </script>
 
