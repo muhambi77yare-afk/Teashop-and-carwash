@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duco Waalid - Jigjiga Yar</title>
     <!-- Leaflet Map CSS (Free, No Keys Needed) -->
-    <link rel="stylesheet" href="https://unpkg.com" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --primary: #005F60;
@@ -14,7 +14,7 @@
             --light: #F8FAFC;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-        body { background-color: var(--light); color: var(--dark); padding-bottom: 80px; }
+        body { background-color: var(--light); color: var(--dark); padding-bottom: 90px; }
         
         /* App Header Layout */
         header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -33,7 +33,7 @@
         .container { width: 90vw; margin: 15px auto; }
         .zone-banner { background: #E0F2F1; border-left: 4px solid var(--primary); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; font-weight: bold; color: var(--primary); }
         
-        /* Uber Eats Style Menu Grid First */
+        /* Menu Grid */
         h2 { font-size: 1.1rem; margin: 25px 0 10px 0; display: flex; align-items: center; gap: 5px; color: var(--primary); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #E2E8F0; position: relative; }
@@ -44,10 +44,10 @@
         .btn-add { background: var(--primary); color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
         .btn-add:active { transform: scale(0.95); }
         
-        /* Compact Map Box View */
+        /* Map Box Container */
         #map-box { height: 260px; width: 100%; border-radius: 16px; border: 2px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; z-index: 10; }
 
-        /* Social Chat Wall */
+        /* Customer Chat Elements */
         .chat-box { background: white; border-radius: 16px; padding: 15px; border: 1px solid #E2E8F0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 30px; }
         .chat-messages { height: 150px; overflow-y: auto; border: 1px solid #F1F5F9; padding: 10px; border-radius: 8px; background: #F8FAFC; margin-bottom: 10px; font-size: 0.85rem; display: flex; flex-direction: column; gap: 8px; }
         .chat-msg { padding: 6px 10px; border-radius: 6px; background: #E2E8F0; align-self: flex-start; max-width: 85%; }
@@ -56,7 +56,7 @@
         .chat-input { flex: 1; padding: 8px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.85rem; }
         .btn-send { background: var(--dark); color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
-        /* Order Summary Bar */
+        /* Checkout Bar Layer */
         .summary-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #E2E8F0; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 1000; }
         .total-text { font-weight: bold; font-size: 1rem; }
         .btn-whatsapp { background: var(--accent); color: #004D40; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(0,230,118,0.3); }
@@ -91,7 +91,7 @@
             📍 Adeegayagu wuxuu ku koobanyahay inta u dhaxaysa Waafi Maal ilaa Goolada Hoose ee Jigjiga Yar!
         </div>
 
-        <!-- 1. FOOD MENU FIRST (Uber Eats Style Layout) -->
+        <!-- 1. FOOD MENU SECTION -->
         <h2>☕ Maqaayada & Cunto Fudud</h2>
         <div class="grid">
             <div class="card">
@@ -163,3 +163,6 @@
             </div>
             <div class="chat-input-row">
                 <input type="text" class="chat-input" id="chatInput" placeholder="Halkan wax ku qor...">
+                <button class="btn-send" onclick="sendChatMessage()">Dir</button>
+            </div>
+    </div> 
