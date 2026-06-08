@@ -129,9 +129,9 @@
             <div class="card">
                 <div>
                     <div class="card-title">VIP Car Wash (Wax & Vacuum)</div>
-                    <div class="card-price">45,000 Sln</div>
+                    <div class="card-price">35,000 Sln</div>
                 </div>
-                <button class="btn-add" onclick="addToCart('VIP Car Wash', 45000)">Dalbo +</button>
+                <button class="btn-add" onclick="addToCart('VIP Car Wash', 35000)">Dalbo +</button>
             </div>
         </div>
 
@@ -157,70 +157,3 @@
 
     <script src="https://unpkg.com"></script>
     <script>
-        let cart = {};
-        let selectedDeliveryLocation = "Goolada Jigjiga Yar (Default)";
-        
-        const map = L.map('map-box').setView([9.5822, 44.0822], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        L.circle([9.5822, 44.0822], { color: '#005F60', fillColor: '#005F60', fillOpacity: 0.15, radius: 600 }).addTo(map);
-        L.marker([9.5822, 44.0822]).addTo(map).bindPopup("<b>Duco Waalid Hub</b>").openPopup();
-
-        function toggleDrawer() { document.getElementById('sideDrawer').classList.toggle('active'); }
-
-        function setShopLocation(placeName, coordinates) {
-            selectedDeliveryLocation = placeName;
-            document.getElementById('locationStatus').innerText = `📍 Meesha aad dooratay: ${placeName}!`;
-            map.setView(coordinates, 16);
-            L.marker(coordinates).addTo(map).bindPopup(`<b>${placeName}</b>`).openPopup();
-            toggleDrawer();
-        }
-
-        function addToCart(itemName, price) {
-            if (cart[itemName]) { cart[itemName].qty += 1; } 
-            else { cart[itemName] = { price: price, qty: 1 }; }
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            let grandTotal = 0;
-            for (let key in cart) { grandTotal += cart[key].price * cart[key].qty; }
-            document.getElementById('cartTotalDisplay').innerText = `Total: ${grandTotal.toLocaleString()} SLN`;
-        }
-
-        function sendWhatsAppOrder() {
-            let itemsArray = [];
-            let totalCost = 0;
-            for (let name in cart) {
-                let cost = cart[name].price * cart[name].qty;
-                totalCost += cost;
-                itemsArray.push(`- ${cart[name].qty}x ${name} (${cost.toLocaleString()} SLN)`);
-            }
-            if (itemsArray.length === 0) { alert("Fadlan marka hore wax ku dar dalabkaaga!"); return; }
-
-            let textMessage = `Duco Waalid Hub Order:\n\n${itemsArray.join('\n')}\n\n💰 Wadar Guud: ${totalCost.toLocaleString()} SLN\n📍 Meesha: ${selectedDeliveryLocation}`;
-            window.open(`https://wa.me{encodeURIComponent(textMessage)}`, '_blank');
-        }
-
-        function sendChatMessage() {
-            const inputField = document.getElementById('chatInput');
-            const messageText = inputField.value.trim();
-            if(!messageText) return;
-            const messageContainer = document.getElementById('chatWall');
-            const userBubble = document.createElement('div');
-            userBubble.className = "chat-msg user";
-            userBubble.innerText = messageText;
-            messageContainer.appendChild(userBubble);
-            inputField.value = "";
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-            setTimeout(() => {
-                const autoResponse = document.createElement('div');
-                autoResponse.className = "chat-msg";
-                autoResponse.innerText = "Mahadsanid! Fariintaada waa la helay.";
-                messageContainer.appendChild(autoResponse);
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-            }, 1000);
-        }
-    </script>
-</body>
-</html>
