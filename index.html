@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duco Waalid - Jigjiga Yar</title>
-    <!-- Leaflet Map CSS (Free, No Keys Needed) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com" />
     <style>
         :root {
             --primary: #005F60;
@@ -15,13 +15,9 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
         body { background-color: var(--light); color: var(--dark); padding-bottom: 90px; }
-        
-        /* App Header Layout */
         header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
         .menu-dots { font-size: 1.5rem; cursor: pointer; background: none; border: none; color: white; padding: 5px 10px; }
-        
-        /* Slide Drawer */
         .drawer { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: white; z-index: 2000; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s; padding: 20px; overflow-y: auto; }
         .drawer.active { right: 0; }
         .drawer-close { font-size: 1.2rem; background: #F1F5F9; border: none; padding: 8px 12px; border-radius: 6px; margin-bottom: 20px; cursor: pointer; float: right; }
@@ -29,25 +25,18 @@
         .drawer-links h3 { margin: 15px 0 5px 0; color: var(--primary); font-size: 1rem; border-bottom: 1px solid #E2E8F0; padding-bottom: 5px; }
         .drawer-links p { font-size: 0.85rem; color: #64748B; margin-bottom: 10px; padding: 6px; cursor: pointer; border-radius: 4px; transition: 0.2s; }
         .drawer-links p:hover { background: #F1F5F9; color: var(--primary); }
-
         .container { width: 90vw; margin: 15px auto; }
         .zone-banner { background: #E0F2F1; border-left: 4px solid var(--primary); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; font-weight: bold; color: var(--primary); }
-        
-        /* Menu Grid */
         h2 { font-size: 1.1rem; margin: 25px 0 10px 0; display: flex; align-items: center; gap: 5px; color: var(--primary); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #E2E8F0; position: relative; }
-        .badge { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.65rem; padding: 3px 6px; border-radius: 20px; font-weight: bold; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #E2E8F0; position: relative; overflow: hidden; }
+        .badge { position: absolute; top: 5px; right: 5px; background: red; color: white; font-size: 0.65rem; padding: 3px 6px; border-radius: 20px; font-weight: bold; z-index: 5; }
+        .card-img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; background: #E2E8F0; }
         .card-title { font-weight: bold; font-size: 0.9rem; margin-bottom: 4px; min-height: 36px; }
         .card-price { color: #64748B; font-size: 0.85rem; margin-bottom: 10px; font-weight: 600; }
         .btn-add { background: var(--primary); color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
         .btn-add:active { transform: scale(0.95); }
-        
-        /* Map Box Container */
         #map-box { height: 260px; width: 100%; border-radius: 16px; border: 2px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; z-index: 10; }
-
-        /* Customer Chat Elements */
         .chat-box { background: white; border-radius: 16px; padding: 15px; border: 1px solid #E2E8F0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 30px; }
         .chat-messages { height: 150px; overflow-y: auto; border: 1px solid #F1F5F9; padding: 10px; border-radius: 8px; background: #F8FAFC; margin-bottom: 10px; font-size: 0.85rem; display: flex; flex-direction: column; gap: 8px; }
         .chat-msg { padding: 6px 10px; border-radius: 6px; background: #E2E8F0; align-self: flex-start; max-width: 85%; }
@@ -55,21 +44,17 @@
         .chat-input-row { display: flex; gap: 8px; }
         .chat-input { flex: 1; padding: 8px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.85rem; }
         .btn-send { background: var(--dark); color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-
-        /* Checkout Bar Layer */
         .summary-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #E2E8F0; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 1000; }
         .total-text { font-weight: bold; font-size: 1rem; }
         .btn-whatsapp { background: var(--accent); color: #004D40; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(0,230,118,0.3); }
     </style>
 </head>
 <body>
-
     <header>
         <div class="logo">🍽️ Duco Waalid Hub</div>
         <button class="menu-dots" onclick="toggleDrawer()">⋮</button>
     </header>
 
-    <!-- Side Navigation Menu Drawer -->
     <div class="drawer" id="sideDrawer">
         <button class="drawer-close" onclick="toggleDrawer()">✕ Kuxidh</button>
         <div class="drawer-links">
@@ -78,7 +63,6 @@
             <p onclick="setShopLocation('Pizza Hut Building', [9.5825, 44.0830])">🔗 Pizza Hut Corner</p>
             <p onclick="setShopLocation('Local Grocery block', [9.5805, 44.0790])">🔗 Grocery Store</p>
             <p onclick="setShopLocation('Telecom Building Office', [9.5835, 44.0845])">🔗 Somtel/Telesom Office</p>
-            
             <h3>📋 Legal & Info</h3>
             <p>Terms of Conditions</p>
             <p>About Our Services</p>
@@ -91,12 +75,12 @@
             📍 Adeegayagu wuxuu ku koobanyahay inta u dhaxaysa Waafi Maal ilaa Goolada Hoose ee Jigjiga Yar!
         </div>
 
-        <!-- 1. FOOD MENU SECTION -->
         <h2>☕ Maqaayada & Cunto Fudud</h2>
         <div class="grid">
             <div class="card">
                 <div class="badge">🔥 LAUNCH PROMO</div>
                 <div>
+                    <div class="card-img" id="img-baguette"></div>
                     <div class="card-title">Baguette Ukun & Chips</div>
                     <div class="card-price">11,000 Sln</div>
                 </div>
@@ -104,6 +88,7 @@
             </div>
             <div class="card">
                 <div>
+                    <div class="card-img" id="img-baraad"></div>
                     <div class="card-title">Shaah Baraad (Camel Milk)</div>
                     <div class="card-price">2,000 Sln</div>
                 </div>
@@ -132,7 +117,6 @@
             </div>
         </div>
 
-        <!-- 2. CAR WASH PRICING SECTION -->
         <h2>🚗 Adeega Dhaqista Gaadiidka</h2>
         <div class="grid">
             <div class="card">
@@ -151,11 +135,9 @@
             </div>
         </div>
 
-        <!-- 3. INTERACTIVE LIVE ZONE MAP -->
         <h2>📍 Goobta Delivery-ga (Jigjiga Yar)</h2>
         <div id="map-box"></div>
 
-        <!-- 4. LOCAL CHAT WALL -->
         <h2>💬 Fariimaha Macamiisha</h2>
         <div class="chat-box">
             <div class="chat-messages" id="chatWall">
@@ -165,4 +147,80 @@
                 <input type="text" class="chat-input" id="chatInput" placeholder="Halkan wax ku qor...">
                 <button class="btn-send" onclick="sendChatMessage()">Dir</button>
             </div>
-    </div> 
+        </div>
+    </div>
+
+    <div class="summary-bar">
+        <div class="total-text" id="cartTotalDisplay">Total: 0 SLN</div>
+        <button class="btn-whatsapp" onclick="sendWhatsAppOrder()">💬 WhatsApp Ku Dalbo</button>
+    </div>
+
+    <script src="https://unpkg.com"></script>
+    <script>
+        let cart = {};
+        let selectedDeliveryLocation = "Goolada Jigjiga Yar (Default)";
+        
+        const map = L.map('map-box').setView([9.5822, 44.0822], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        L.circle([9.5822, 44.0822], { color: '#005F60', fillColor: '#005F60', fillOpacity: 0.15, radius: 600 }).addTo(map);
+        L.marker([9.5822, 44.0822]).addTo(map).bindPopup("<b>Duco Waalid Hub</b>").openPopup();
+
+        function toggleDrawer() { document.getElementById('sideDrawer').classList.toggle('active'); }
+
+        function setShopLocation(placeName, coordinates) {
+            selectedDeliveryLocation = placeName;
+            document.getElementById('locationStatus').innerText = `📍 Meesha aad dooratay: ${placeName}!`;
+            map.setView(coordinates, 16);
+            L.marker(coordinates).addTo(map).bindPopup(`<b>${placeName}</b>`).openPopup();
+            toggleDrawer();
+        }
+
+        function addToCart(itemName, price) {
+            if (cart[itemName]) { cart[itemName].qty += 1; } 
+            else { cart[itemName] = { price: price, qty: 1 }; }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            let grandTotal = 0;
+            for (let key in cart) { grandTotal += cart[key].price * cart[key].qty; }
+            document.getElementById('cartTotalDisplay').innerText = `Total: ${grandTotal.toLocaleString()} SLN`;
+        }
+
+        function sendWhatsAppOrder() {
+            let itemsArray = [];
+            let totalCost = 0;
+            for (let name in cart) {
+                let cost = cart[name].price * cart[name].qty;
+                totalCost += cost;
+                itemsArray.push(`- ${cart[name].qty}x ${name} (${cost.toLocaleString()} SLN)`);
+            }
+            if (itemsArray.length === 0) { alert("Fadlan marka hore wax ku dar dalabkaaga!"); return; }
+
+            let textMessage = `Duco Waalid Hub Order:\n\n${itemsArray.join('\n')}\n\n💰 Wadar Guud: ${totalCost.toLocaleString()} SLN\n📍 Meesha: ${selectedDeliveryLocation}`;
+            window.open(`https://wa.me{encodeURIComponent(textMessage)}`, '_blank');
+        }
+
+        function sendChatMessage() {
+            const inputField = document.getElementById('chatInput');
+            const messageText = inputField.value.trim();
+            if(!messageText) return;
+            const messageContainer = document.getElementById('chatWall');
+            const userBubble = document.createElement('div');
+            userBubble.className = "chat-msg user";
+            userBubble.innerText = messageText;
+            messageContainer.appendChild(userBubble);
+            inputField.value = "";
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+            setTimeout(() => {
+                const autoResponse = document.createElement('div');
+                autoResponse.className = "chat-msg";
+                autoResponse.innerText = "Mahadsanid! Fariintaada waa la helay.";
+                messageContainer.appendChild(autoResponse);
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
